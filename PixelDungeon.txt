@@ -1,0 +1,16 @@
+PixelDungeon-->TitleScene-->StartScene--
+								^	   |
+								^	   |
+								^	   |-->(first in)IntroScene
+								^	   |					  |
+								^	   |					  |
+								^	   |					  V
+								^	   |--------------->InterlevelScene--
+								^										|
+								^										|
+								^----------------------(STATIC error)<--|
+																		|
+																		|
+																		|-->(fade out)GameScene
+																		
+物品掉落逻辑:Heap保存是对应物品的表现,Heap中保存对应掉落的物品
