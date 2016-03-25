@@ -36,36 +36,114 @@ import com.watabou.utils.Rect;
 public class Room extends Rect implements Graph.Node, Bundlable {
 	
 	public HashSet<Room> neigbours = new HashSet<Room>();
+	/**
+	 * 邻居房间的门
+	 */
 	public HashMap<Room, Door> connected = new HashMap<Room, Door>();
 	
 	public int distance;
 	public int price = 1;
 	
 	public static enum Type {
+		/**
+		 * 空
+		 */
 		NULL( null ),
+		/**
+		 * 基本标准房间
+		 */
 		STANDARD	( StandardPainter.class ),
+		/**
+		 * 入口房间
+		 */
 		ENTRANCE	( EntrancePainter.class ),
+		/**
+		 * 出口房间
+		 */
 		EXIT		( ExitPainter.class ),
+		/**
+		 * boss层出口房间
+		 */
 		BOSS_EXIT	( BossExitPainter.class ),
+		/**
+		 * 隧道
+		 */
 		TUNNEL		( TunnelPainter.class ),
+		/**
+		 * 通道
+		 */
 		PASSAGE		( PassagePainter.class ),
+		/**
+		 * 商店
+		 */
 		SHOP		( ShopPainter.class ),
+		/**
+		 * 铁匠铺
+		 */
 		BLACKSMITH	( BlacksmithPainter.class ),
+		/**
+		 * 宝库
+		 */
 		TREASURY	( TreasuryPainter.class ),
+		/**
+		 * 军械库
+		 */
 		ARMORY		( ArmoryPainter.class ),
+		/**
+		 * 图书馆
+		 */
 		LIBRARY		( LibraryPainter.class ),
+		/**
+		 * 实验室
+		 */
 		LABORATORY	( LaboratoryPainter.class ),
+		/**
+		 * 墓穴
+		 */
 		VAULT		( VaultPainter.class ),
+		/**
+		 * 陷阱
+		 */
 		TRAPS		( TrapsPainter.class ),
+		/**
+		 * 仓库
+		 */
 		STORAGE		( StoragePainter.class ),
+		/**
+		 * 魔法泉
+		 */
 		MAGIC_WELL	( MagicWellPainter.class ),
+		/**
+		 * 花园
+		 */
 		GARDEN		( GardenPainter.class ),
+		/**
+		 * 地窖
+		 */
 		CRYPT		( CryptPainter.class ),
+		/**
+		 * 雕像
+		 */
 		STATUE		( StatuePainter.class ),
+		/**
+		 * 水池
+		 */
 		POOL		( PoolPainter.class ),
+		/**
+		 * 鼠王
+		 */
 		RAT_KING	( RatKingPainter.class ),
+		/**
+		 * 弱大厅
+		 */
 		WEAK_FLOOR	( WeakFloorPainter.class ),
+		/**
+		 * 地穴
+		 */
 		PIT			( PitPainter.class ),
+		/**
+		 * 祭坛
+		 */
 		ALTAR		( AltarPainter.class );
 		
 		private Method paint;
@@ -94,6 +172,10 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 	
 	public Type type = Type.NULL;
 	
+	/**
+	 * 返回房间内除了围墙的随机格子下标
+	 * @return
+	 */
 	public int random() {
 		return random( 0 );
 	}
@@ -104,6 +186,10 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		return x + y * Level.WIDTH;
 	}
 	
+	/**
+	 * 把相连的房间记录下来(相连规则为至少有三块格子相交)
+	 * @param other
+	 */
 	public void addNeigbour( Room other ) {
 		
 		Rect i = intersect( other );
@@ -139,7 +225,10 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 	}
 	
 	// **** Graph.Node interface ****
-
+	
+	/**
+	 * 到出口的距离
+	 */
 	@Override
 	public int distance() {
 		return distance;
@@ -160,6 +249,9 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		price = value;
 	}
 
+	/**
+	 * 邻居
+	 */
 	@Override
 	public Collection<Room> edges() {
 		return neigbours;
@@ -197,6 +289,10 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		}
 	}
 	
+	/**
+	 * 用于验证type可用？
+	 * @param type
+	 */
 	public static void useType( Type type ) {
 		if (SPECIALS.remove( type )) {
 			SPECIALS.add( type );
@@ -227,7 +323,20 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 	public static class Door extends Point {
 		
 		public static enum Type {
-			EMPTY, TUNNEL, REGULAR, UNLOCKED, HIDDEN, BARRICADE, LOCKED
+			/**空门*/
+			EMPTY, 
+			/**隧道*/
+			TUNNEL, 
+			/**普通*/
+			REGULAR, 
+			/**开启的*/
+			UNLOCKED, 
+			/**隐藏的门*/
+			HIDDEN, 
+			/**栅栏*/
+			BARRICADE, 
+			/**有锁的门*/
+			LOCKED
 		}
 		public Type type = Type.EMPTY;
 		
@@ -235,8 +344,12 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 			super( x, y );
 		}
 		
+		/**
+		 * 设置door的类型,高优先级的会覆盖低优先级的
+		 * @param type
+		 */
 		public void set( Type type ) {
-			if (type.compareTo( this.type ) > 0) {
+			if (type.compareTo( this.type ) > 0) {//根据优先级设置房间类型
 				this.type = type;
 			}
 		}

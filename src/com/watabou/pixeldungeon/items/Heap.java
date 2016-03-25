@@ -59,22 +59,32 @@ public class Heap implements Bundlable {
 	private static final float FADE_TIME = 0.6f;
 	
 	public enum Type {
-		HEAP, 
-		FOR_SALE, 
-		CHEST, 
-		LOCKED_CHEST, 
+		/**灌满*/
+		HEAP,
+		/**待售*/
+		FOR_SALE,
+		/**箱子*/
+		CHEST,
+		/**有锁的箱子*/
+		LOCKED_CHEST,
+		/**水晶箱子*/
 		CRYSTAL_CHEST,
-		TOMB, 
+		/**墓穴*/
+		TOMB,
+		/**骷髅*/
 		SKELETON,
+		/**模仿*/
 		MIMIC,
+		/**隐藏的*/
 		HIDDEN
 	}
 	public Type type = Type.HEAP;
 	
 	public int pos = 0;
 	
-	public ItemSprite sprite;
+	public ItemSprite sprite;//物品的雪碧贴图
 	
+	/**掉落列表? 2016-03-25 对的 是这个Heap的掉落列表 可以掉落多个物品*/
 	public LinkedList<Item> items = new LinkedList<Item>();
 	
 	public int image() {
@@ -100,10 +110,18 @@ public class Heap implements Bundlable {
 		}
 	}
 	
+	/**
+	 * 发光 闪亮
+	 * @return
+	 */
 	public ItemSprite.Glowing glowing() {
 		return (type == Type.HEAP || type == Type.FOR_SALE) && items.size() > 0 ? items.peek().glowing() : null;
 	}
 	
+	/**
+	 * 打开
+	 * @param hero
+	 */
 	public void open( Hero hero ) {
 		switch (type) {
 		case MIMIC:

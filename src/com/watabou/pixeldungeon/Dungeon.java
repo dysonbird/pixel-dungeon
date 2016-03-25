@@ -25,6 +25,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 
+import android.util.Log;
+
 import com.watabou.noosa.Game;
 import com.watabou.pixeldungeon.actors.Actor;
 import com.watabou.pixeldungeon.actors.Char;
@@ -142,6 +144,11 @@ public class Dungeon {
 		StartScene.curClass.initHero( hero );
 	}
 	
+	/**
+	 * 判断地穴的挑战模式
+	 * @param mask
+	 * @return
+	 */
 	public static boolean isChallenged( int mask ) {
 		return (challenges & mask) != 0;
 	}
@@ -238,6 +245,10 @@ public class Dungeon {
 		switchLevel( level, level.entrance );
 	}
 	
+	/**
+	 * 判断是否开放商店
+	 * @return
+	 */
 	public static boolean shopOnLevel() {
 		return depth == 6 || depth == 11 || depth == 16;
 	}
@@ -269,6 +280,7 @@ public class Dungeon {
 		hero.viewDistance = light == null ? level.viewDistance : Math.max( Light.DISTANCE, level.viewDistance );
 		
 		observe();
+		Log.i("descend()", "切换地牢等级");
 	}
 	
 	public static void dropToChasm( Item item ) {
@@ -296,7 +308,7 @@ public class Dungeon {
 	
 	private static boolean chance( int[] quota, int number ) {
 		
-		for (int i=0; i < quota.length; i += 2) {
+		for (int i = 0; i < quota.length; i += 2) {
 			int qDepth = quota[i];
 			if (depth <= qDepth) {
 				int qNumber = quota[i + 1];
@@ -422,8 +434,8 @@ public class Dungeon {
 	public static void saveLevel() throws IOException {
 		Bundle bundle = new Bundle();
 		bundle.put( LEVEL, level );
-		
-		OutputStream output = Game.instance.openFileOutput( Utils.format( depthFile( hero.heroClass ), depth ), Game.MODE_PRIVATE );
+		Log.d("saveLevel", Utils.format( depthFile( hero.heroClass ), depth ));
+		OutputStream output = Game.instance.openFileOutput( Utils.format( depthFile( hero.heroClass ), depth ), Game.MODE_PRIVATE );//打开对应的文件 每个文件对应一个dungeon
 		Bundle.write( bundle, output );
 		output.close();
 	}
@@ -540,8 +552,8 @@ public class Dungeon {
 		
 		Dungeon.level = null;
 		Actor.clear();
-		
-		InputStream input = Game.instance.openFileInput( Utils.format( depthFile( cl ), depth ) ) ;
+		Log.d("loadLevel",  Utils.format( depthFile( cl ), depth ));
+		InputStream input = Game.instance.openFileInput( Utils.format( depthFile( cl ), depth ) ) ;//打开对应的文件 每个文件对应一个dungeon
 		Bundle bundle = Bundle.read( input );
 		input.close();
 		

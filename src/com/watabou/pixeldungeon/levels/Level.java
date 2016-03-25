@@ -23,6 +23,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import android.util.Log;
+
 import com.watabou.noosa.Scene;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.pixeldungeon.Assets;
@@ -75,9 +77,21 @@ import com.watabou.utils.SparseArray;
 public abstract class Level implements Bundlable {
 	
 	public static enum Feeling {
+		/**
+		 * 无
+		 */
 		NONE,
+		/**
+		 * 裂缝,深坑
+		 */
 		CHASM,
+		/**
+		 * 水
+		 */
 		WATER,
+		/**
+		 * 草地
+		 */
 		GRASS
 	};
 	
@@ -89,7 +103,7 @@ public abstract class Level implements Bundlable {
 	public static final int[] NEIGHBOURS8 = {+1, -1, +WIDTH, -WIDTH, +1+WIDTH, +1-WIDTH, -1+WIDTH, -1-WIDTH};
 	public static final int[] NEIGHBOURS9 = {0, +1, -1, +WIDTH, -WIDTH, +1+WIDTH, +1-WIDTH, -1+WIDTH, -1-WIDTH};
 	
-	protected static final float TIME_TO_RESPAWN	= 50;
+	protected static final float TIME_TO_RESPAWN = 50;//重生时间或者次数？
 	
 	private static final String TXT_HIDDEN_PLATE_CLICKS = "A hidden pressure plate clicks!";
 	
@@ -100,31 +114,34 @@ public abstract class Level implements Bundlable {
 	public boolean[] visited;
 	public boolean[] mapped;
 	
-	public int viewDistance = Dungeon.isChallenged( Challenges.DARKNESS ) ? 3: 8;
+	public int viewDistance = Dungeon.isChallenged( Challenges.DARKNESS ) ? 3 : 8;
 	
 	public static boolean[] fieldOfView = new boolean[LENGTH];
 	
-	public static boolean[] passable	= new boolean[LENGTH];
-	public static boolean[] losBlocking	= new boolean[LENGTH];
-	public static boolean[] flamable	= new boolean[LENGTH];
-	public static boolean[] secret		= new boolean[LENGTH];
-	public static boolean[] solid		= new boolean[LENGTH];
-	public static boolean[] avoid		= new boolean[LENGTH];
-	public static boolean[] water		= new boolean[LENGTH];
-	public static boolean[] pit			= new boolean[LENGTH];
+	public static boolean[] passable	= new boolean[LENGTH];//可通行
+	public static boolean[] losBlocking	= new boolean[LENGTH];//消失的块
+	public static boolean[] flamable	= new boolean[LENGTH];//可燃的
+	public static boolean[] secret		= new boolean[LENGTH];//秘密块
+	public static boolean[] solid		= new boolean[LENGTH];//固体 可靠的
+	public static boolean[] avoid		= new boolean[LENGTH];//避免 废止
+	public static boolean[] water		= new boolean[LENGTH];//水
+	public static boolean[] pit			= new boolean[LENGTH];//坑 地穴
 	
-	public static boolean[] discoverable	= new boolean[LENGTH];
+	public static boolean[] discoverable	= new boolean[LENGTH];//可检测的
 	
 	public Feeling feeling = Feeling.NONE;
 	
 	public int entrance;
 	public int exit;
 	
+	/**怪物*/
 	public HashSet<Mob> mobs;
+	/**方块上放置的物体,例如：金币*/
 	public SparseArray<Heap> heaps;
-	public HashMap<Class<? extends Blob>,Blob> blobs;
+	public HashMap<Class<? extends Blob>,Blob> blobs;//存储对象
 	public SparseArray<Plant> plants;
 	
+	/**本层地穴需要生成的物品*/
 	protected ArrayList<Item> itemsToSpawn = new ArrayList<Item>();
 	
 	public int color1 = 0x004400;
@@ -160,15 +177,15 @@ public abstract class Level implements Bundlable {
 		
 		if (!Dungeon.bossLevel()) {
 			addItemToSpawn( Generator.random( Generator.Category.FOOD ) );
-			if (Dungeon.posNeeded()) {
+			if (Dungeon.posNeeded()) {//毒
 				addItemToSpawn( new PotionOfStrength() );
 				Dungeon.potionOfStrength++;
 			}
-			if (Dungeon.souNeeded()) {
+			if (Dungeon.souNeeded()) {//升级卷轴
 				addItemToSpawn( new ScrollOfUpgrade() );
 				Dungeon.scrollsOfUpgrade++;
 			}
-			if (Dungeon.soeNeeded()) {
+			if (Dungeon.soeNeeded()) {//附魔卷轴
 				addItemToSpawn( new ScrollOfEnchantment() );
 				Dungeon.scrollsOfEnchantment++;
 			}
@@ -192,13 +209,16 @@ public abstract class Level implements Bundlable {
 		
 		boolean pitNeeded = Dungeon.depth > 1 && weakFloorCreated;
 		
+		Arrays.fill( map, feeling == Feeling.CHASM ? Terrain.CHASM : Terrain.WALL );
+		pitRoomNeeded = pitNeeded;
+		weakFloorCreated = false;
 		do {
-			Arrays.fill( map, feeling == Feeling.CHASM ? Terrain.CHASM : Terrain.WALL );
-			
-			pitRoomNeeded = pitNeeded;
-			weakFloorCreated = false;
-			
+			//do nothing
+//			Arrays.fill( map, feeling == Feeling.CHASM ? Terrain.CHASM : Terrain.WALL );
+//			pitRoomNeeded = pitNeeded;
+//			weakFloorCreated = false;
 		} while (!build());
+		
 		decorate();
 		
 		buildFlagMaps();
@@ -536,29 +556,35 @@ public abstract class Level implements Bundlable {
 		water[cell]			= terrain == Terrain.WATER || terrain >= Terrain.WATER_TILES;
 	}
 	
+	/**
+	 * 在格子中掉落的物品,是将要掉落？
+	 * @param item
+	 * @param cell
+	 * @return
+	 */
 	public Heap drop( Item item, int cell ) {
 		
 		if (Dungeon.isChallenged( Challenges.NO_FOOD ) && item instanceof Food) {
-			item = new Gold( item.price() );
+			item = new Gold( item.price() );//把掉落的物品转换为掉落金币
 		} else
 		if (Dungeon.isChallenged( Challenges.NO_ARMOR ) && item instanceof Armor) {
-			item = new Gold( item.price() );
+			item = new Gold( item.price() );//把掉落的物品转换为掉落金币
 		} else
 		if (Dungeon.isChallenged( Challenges.NO_HEALING ) && item instanceof PotionOfHealing) {
-			item = new Gold( item.price() );
+			item = new Gold( item.price() );//把掉落的物品转换为掉落金币
 		} else
 		if (Dungeon.isChallenged( Challenges.NO_HERBALISM ) && item instanceof SeedPouch) {
-			item = new Gold( item.price() );
+			item = new Gold( item.price() );//把掉落的物品转换为掉落金币
 		} else
 		if (Dungeon.isChallenged( Challenges.NO_SCROLLS ) && (item instanceof Scroll || item instanceof ScrollHolder)) {
 			if (item instanceof ScrollOfUpgrade) {
 				// These scrolls still can be found
 			} else {
-				item = new Gold( item.price() );
+				item = new Gold( item.price() );//把掉落的物品转换为掉落金币
 			}
 		}
 		
-		if ((map[cell] == Terrain.ALCHEMY) && !(item instanceof Plant.Seed)) {
+		if ((map[cell] == Terrain.ALCHEMY) && !(item instanceof Plant.Seed)) {//掉落的是非种子的话,位置为九宫格随机
 			int n;
 			do {
 				n = cell + NEIGHBOURS8[Random.Int( 8 )];
@@ -568,7 +594,6 @@ public abstract class Level implements Bundlable {
 		
 		Heap heap = heaps.get( cell );
 		if (heap == null) {
-			
 			heap = new Heap();
 			heap.pos = cell;
 			if (map[cell] == Terrain.CHASM || (Dungeon.level != null && pit[cell])) {
@@ -625,6 +650,13 @@ public abstract class Level implements Bundlable {
 			Chasm.heroFall( cell );
 			return;
 		}
+		
+		//TODO FIXME
+		Room room = ((RegularLevel)Dungeon.level).room( cell );
+		if(room != null) {
+			Log.i("房间", room.type.name());
+		}
+		
 		
 		boolean trap = false;
 		

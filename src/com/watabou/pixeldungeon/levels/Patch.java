@@ -24,6 +24,12 @@ public class Patch {
 	private static boolean[] cur = new boolean[Level.LENGTH];
 	private static boolean[] off = new boolean[Level.LENGTH];
 	
+	/**
+	 * 
+	 * @param seed 随机种子
+	 * @param nGen 生成次数
+	 * @return
+	 */
 	public static boolean[] generate( float seed, int nGen ) {
 		
 		int w = Level.WIDTH;
@@ -40,6 +46,7 @@ public class Patch {
 					
 					int pos = x + y * w;
 					int count = 0;
+					//九宫格
 					if (off[pos-w-1]) {
 						count++;
 					}

@@ -107,7 +107,7 @@ public class Mimic extends Mob {
 		
 		if (items != null) {
 			for (Item item : items) {
-				Dungeon.level.drop( item, pos ).sprite.drop();
+				Dungeon.level.drop( item, pos ).sprite.drop();//掉落物品
 			}
 		}
 	}
@@ -125,6 +125,12 @@ public class Mimic extends Mob {
 			"choose a shape of a treasure chest, because they know how to beckon an adventurer.";
 	}
 	
+	/**
+	 * 生产Mob
+	 * @param pos
+	 * @param items
+	 * @return
+	 */
 	public static Mimic spawnAt( int pos, List<Item> items ) {
 		Char ch = Actor.findChar( pos ); 
 		if (ch != null) {

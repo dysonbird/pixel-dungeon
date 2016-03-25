@@ -110,6 +110,9 @@ public class ItemSprite extends MovieClip {
 		point( worldToCamera( p ) );
 	}
 	
+	/**
+	 * 掉落动画
+	 */
 	public void drop() {
 
 		if (heap.isEmpty()) {

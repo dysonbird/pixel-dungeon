@@ -43,7 +43,7 @@ public class Painter {
 		int width = Level.WIDTH;
 		
 		int pos = y * width + x;
-		for (int i=y; i < y + h; i++, pos += width) {
+		for (int i = y; i < y + h; i++, pos += width) {//循环i是方块数量
 			Arrays.fill( level.map, pos, pos + w, value );
 		}
 	}

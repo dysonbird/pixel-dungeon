@@ -32,6 +32,11 @@ import com.watabou.pixeldungeon.utils.Utils;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+/**
+ * 金币
+ * @author 
+ *
+ */
 public class Gold extends Item {
 
 	private static final String TXT_COLLECT	= "Collect gold coins to spend them later in a shop.";

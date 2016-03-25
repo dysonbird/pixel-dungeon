@@ -29,33 +29,33 @@ public class TreasuryPainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
 
-		fill( level, room, Terrain.WALL );
-		fill( level, room, 1, Terrain.EMPTY );
+		fill( level, room, Terrain.WALL );//房间填满墙
+		fill( level, room, 1, Terrain.EMPTY );//挖空中间
 		
-		set( level, room.center(), Terrain.STATUE );
+		set( level, room.center(), Terrain.STATUE );//中间放置一个雕像
 		
-		Heap.Type heapType = Random.Int( 2 ) == 0 ? Heap.Type.CHEST : Heap.Type.HEAP;
+		Heap.Type heapType = Random.Int( 2 ) == 0 ? Heap.Type.CHEST : Heap.Type.HEAP;//随机一个类型
 		
 		int n = Random.IntRange( 2, 3 );
-		for (int i=0; i < n; i++) {
+		for (int i=0; i < n; i++) {//随机一个箱子
 			int pos;
 			do {
 				pos = room.random();
 			} while (level.map[pos] != Terrain.EMPTY || level.heaps.get( pos ) != null);
-			level.drop( new Gold().random(), pos ).type = (i == 0 && heapType == Heap.Type.CHEST ? Heap.Type.MIMIC : heapType);
+			level.drop( new Gold().random(), pos ).type = (i == 0 && heapType == Heap.Type.CHEST ? Heap.Type.MIMIC : heapType);//把金币放在地上
 		}
 		
 		if (heapType == Heap.Type.HEAP) {
-			for (int i=0; i < 6; i++) {
+			for (int i=0; i < 6; i++) {//再随机6次直接掉落金币
 				int pos;
 				do {
 					pos = room.random();
 				} while (level.map[pos] != Terrain.EMPTY);
-				level.drop( new Gold( Random.IntRange( 1, 3 ) ), pos );
+				level.drop( new Gold( Random.IntRange( 1, 3 ) ), pos );//把金币放在地上
 			}
 		}
 		
-		room.entrance().set( Room.Door.Type.LOCKED );
-		level.addItemToSpawn( new IronKey() );
+		room.entrance().set( Room.Door.Type.LOCKED );//宝库的房间为锁上的
+		level.addItemToSpawn( new IronKey() );//宝库的层一定生成一把钥匙
 	}
 }

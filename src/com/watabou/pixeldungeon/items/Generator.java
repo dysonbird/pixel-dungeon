@@ -36,8 +36,18 @@ import com.watabou.pixeldungeon.items.weapon.missiles.*;
 import com.watabou.pixeldungeon.plants.*;
 import com.watabou.utils.Random;
 
+/**
+ * 物品生成器
+ * @author 
+ *
+ */
 public class Generator {
-
+	
+	/**
+	 * 物品目录
+	 * @author 
+	 *
+	 */
 	public static enum Category {
 		WEAPON	( 15,	Weapon.class ),
 		ARMOR	( 10,	Armor.class ),
@@ -51,9 +61,9 @@ public class Generator {
 		MISC	( 5,	Item.class );
 		
 		public Class<?>[] classes;
-		public float[] probs;
+		public float[] probs;//概率
 		
-		public float prob;
+		public float prob;//概率
 		public Class<? extends Item> superClass;
 		
 		private Category( float prob, Class<? extends Item> superClass ) {
@@ -193,6 +203,9 @@ public class Generator {
 		Category.MISC.probs = new float[]{ 2, 1 };
 	}
 	
+	/**
+	 * 重置物品生成器
+	 */
 	public static void reset() {
 		for (Category cat : Category.values()) {
 			categoryProbs.put( cat, cat.prob );

@@ -18,13 +18,20 @@
 package com.watabou.pixeldungeon;
 
 public class Challenges {
-
+	
+	/**无食物*/
 	public static final int NO_FOOD				= 1;
+	/**无武器*/
 	public static final int NO_ARMOR			= 2;
+	/**不能治疗*/
 	public static final int NO_HEALING			= 4;
+	/**无草药*/
 	public static final int NO_HERBALISM		= 8;
+	/**虫群*/
 	public static final int SWARM_INTELLIGENCE	= 16;
+	/**黑暗*/
 	public static final int DARKNESS			= 32;
+	/**无卷轴*/
 	public static final int NO_SCROLLS			= 64;
 	
 	public static final String[] NAMES = {

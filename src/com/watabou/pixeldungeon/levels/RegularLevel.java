@@ -22,6 +22,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import android.util.Log;
+
 import com.watabou.pixeldungeon.Bones;
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.actors.Actor;
@@ -40,7 +42,7 @@ import com.watabou.utils.Rect;
 
 public abstract class RegularLevel extends Level {
 
-	protected HashSet<Room> rooms;
+	protected HashSet<Room> rooms;// 房间
 	
 	protected Room roomEntrance;
 	protected Room roomExit;
@@ -52,40 +54,45 @@ public abstract class RegularLevel extends Level {
 	@Override
 	protected boolean build() {
 		
-		if (!initRooms()) {
+		if (!initRooms()) {// 切分房间
 			return false;
 		}
-
+		
+		/*-----初始化出入口-----begin*/
 		int distance;
 		int retry = 0;
 		int minDistance = (int)Math.sqrt( rooms.size() );
 		do {
 			do {
-				roomEntrance = Random.element( rooms );
+				roomEntrance = Random.element( rooms );// 入口
 			} while (roomEntrance.width() < 4 || roomEntrance.height() < 4);
 			
 			do {
-				roomExit = Random.element( rooms );
+				roomExit = Random.element( rooms );// 出口
 			} while (roomExit == roomEntrance || roomExit.width() < 4 || roomExit.height() < 4);
 	
-			Graph.buildDistanceMap( rooms, roomExit );
+			Graph.buildDistanceMap( rooms, roomExit );// 计算每个房间到出口房间的距离
 			distance = roomEntrance.distance();
 			
-			if (retry++ > 10) {
+			if (retry++ > 10) {// 超过10次 生产的地图房间都不能满足条件 重新build
 				return false;
 			}
 			
-		} while (distance < minDistance);
+		} while (distance < minDistance);// 入口和出口的距离不能少于总房间个数的开方
+		/*-----初始化出入口-----end*/
 		
+		// 标记出入口房间类型
 		roomEntrance.type = Type.ENTRANCE;
 		roomExit.type = Type.EXIT;
 		
-		HashSet<Room> connected = new HashSet<Room>();
+		/*----计算两次路径,这样可以造成到出口不止一种走法-------begin*/
+		HashSet<Room> connected = new HashSet<Room>();// 入口到出口的最短路径,必须有door连接的房间列表
 		connected.add( roomEntrance );
 		
-		Graph.buildDistanceMap( rooms, roomExit );
+		Graph.buildDistanceMap( rooms, roomExit );// 为什么又重新计算离出口的距离？
 		List<Room> path = Graph.buildPath( rooms, roomEntrance, roomExit );
 		
+		/*第一条入口到出口的路径*/
 		Room room = roomEntrance;
 		for (Room next : path) {
 			room.connect( next );
@@ -93,11 +100,12 @@ public abstract class RegularLevel extends Level {
 			connected.add( room );
 		}
 		
-		Graph.setPrice( path, roomEntrance.distance );
+		Graph.setPrice(path, roomEntrance.distance );// 最短路径权重设置为入口的到出口的距离
 		
-		Graph.buildDistanceMap( rooms, roomExit );
-		path = Graph.buildPath( rooms, roomEntrance, roomExit );
+		Graph.buildDistanceMap( rooms, roomExit);// 权重发生变化,重新计算各个房间到出口的距离
+		path = Graph.buildPath( rooms, roomEntrance, roomExit );//权重变化后 再计算出一条最短路径
 		
+		/*第二条入口到出口的路径*/
 		room = roomEntrance;
 		for (Room next : path) {
 			room.connect( next );
@@ -105,8 +113,9 @@ public abstract class RegularLevel extends Level {
 			connected.add( room );
 		}
 		
+		/*随机打通两个房间 Random.Float( 0.5f, 0.7f )保证最少50%的房间连通，最多70%*/
 		int nConnected = (int)(rooms.size() * Random.Float( 0.5f, 0.7f ));
-		while (connected.size() < nConnected) {
+		while (connected.size() < nConnected) {// 把能到达出口的路径的随机房间的邻居随机加入到路劲
 			Room cr = Random.element( connected );
 			Room or = Random.element( cr.neigbours );
 			if (!connected.contains( or )) {
@@ -114,10 +123,11 @@ public abstract class RegularLevel extends Level {
 				connected.add( or );
 			}
 		}
+		/*------------end*/
 		
 		if (Dungeon.shopOnLevel()) {
 			Room shop = null;
-			for (Room r : roomEntrance.connected.keySet()) {
+			for (Room r : roomEntrance.connected.keySet()) {//在去出口的路径上选一个足够大的房间作为商店 保证了商店可达
 				if (r.connected.size() == 1 && r.width() >= 5 && r.height() >= 5) {
 					shop = r;
 					break;
@@ -127,12 +137,12 @@ public abstract class RegularLevel extends Level {
 			if (shop == null) {
 				return false;
 			} else {
-				shop.type = Room.Type.SHOP;
+				shop.type = Room.Type.SHOP;// 修改房间类型为商店
 			}
 		}
 		
 		specials = new ArrayList<Room.Type>( Room.SPECIALS );
-		if (Dungeon.bossLevel( Dungeon.depth + 1 )) {
+		if (Dungeon.bossLevel( Dungeon.depth + 1 )) {//下一层为boss层就去掉 weak_floor的房间类型
 			specials.remove( Room.Type.WEAK_FLOOR );
 		}
 		assignRoomType();
@@ -146,6 +156,10 @@ public abstract class RegularLevel extends Level {
 		return true;
 	}
 	
+	/**
+	 * 在地图中划分房间并计算房间的连通性(即邻居)
+	 * @return
+	 */
 	protected boolean initRooms() {
 		rooms = new HashSet<Room>();
 		split( new Rect( 0, 0, WIDTH - 1, HEIGHT - 1 ) );
@@ -154,6 +168,7 @@ public abstract class RegularLevel extends Level {
 			return false;
 		}
 		
+		// 计算每个房间到达
 		Room[] ra = rooms.toArray( new Room[0] );
 		for (int i=0; i < ra.length-1; i++) {
 			for (int j=i+1; j < ra.length; j++) {
@@ -164,17 +179,18 @@ public abstract class RegularLevel extends Level {
 		return true;
 	}
 	
+	/**
+	 * 房间类型赋值
+	 */
 	protected void assignRoomType() {
 		
 		int specialRooms = 0;
-		
 		for (Room r : rooms) {
-			if (r.type == Type.NULL && 
-				r.connected.size() == 1) {
-
-				if (specials.size() > 0 &&
-					r.width() > 3 && r.height() > 3 &&
-					Random.Int( specialRooms * specialRooms + 2 ) == 0) {
+			if (r.type == Type.NULL && r.connected.size() == 1) {
+				if (specials.size() > 0 
+						&& r.width() > 3 
+						&& r.height() > 3 
+						&& Random.Int( specialRooms * specialRooms + 2 ) == 0) {//对足够大的房间的类型进行随机赋值
 
 					if (pitRoomNeeded) {
 
@@ -196,19 +212,20 @@ public abstract class RegularLevel extends Level {
 						
 					} else {
 						
-						int n = specials.size();
-						r.type = specials.get( Math.min( Random.Int( n ), Random.Int( n ) ) );
+//						int n = specials.size();
+//						r.type = specials.get( Math.min( Random.Int( n ), Random.Int( n ) ) );
+						r.type = Type.TREASURY;// TODO FIXME
+						Log.i("创建房间类型", "宝库");
 						if (r.type == Type.WEAK_FLOOR) {
 							weakFloorCreated = true;
 						}
-
 					}
 					
 					Room.useType( r.type );
 					specials.remove( r.type );
 					specialRooms++;
 					
-				} else if (Random.Int( 2 ) == 0){
+				} else if (Random.Int( 2 ) == 0){//随机连通周围一个不是pit的邻居
 
 					HashSet<Room> neigbours = new HashSet<Room>();
 					for (Room n : r.neigbours) {
@@ -228,7 +245,7 @@ public abstract class RegularLevel extends Level {
 		
 		int count = 0;
 		for (Room r : rooms) {
-			if (r.type == Type.NULL) {
+			if (r.type == Type.NULL) {//把null的房间 随机修改为标准房间或者tunnel
 				int connections = r.connected.size();
 				if (connections == 0) {
 					
@@ -241,7 +258,7 @@ public abstract class RegularLevel extends Level {
 			}
 		}
 		
-		while (count < 4) {
+		while (count < 4) {//标准房间少于4个时 随机把tunnel改成标准房间
 			Room r = randomRoom( Type.TUNNEL, 1 );
 			if (r != null) {
 				r.type = Type.STANDARD;
@@ -250,6 +267,9 @@ public abstract class RegularLevel extends Level {
 		}
 	}
 	
+	/**
+	 * map水块赋值
+	 */
 	protected void paintWater() {
 		boolean[] lake = water();
 		for (int i=0; i < LENGTH; i++) {
@@ -259,12 +279,16 @@ public abstract class RegularLevel extends Level {
 		}
 	}
 	
+	/**
+	 * map草块赋值
+	 */
 	protected void paintGrass() {
 		boolean[] grass = grass();
 		
-		if (feeling == Feeling.GRASS) {
+		if (feeling == Feeling.GRASS) {//判断层是否是偏向草地
 			
 			for (Room room : rooms) {
+				//把room的四个角变成草地
 				if (room.type != Type.NULL && room.type != Type.PASSAGE && room.type != Type.TUNNEL) {
 					grass[(room.left + 1) + (room.top + 1) * WIDTH] = true;
 					grass[(room.right - 1) + (room.top + 1) * WIDTH] = true;
@@ -277,19 +301,25 @@ public abstract class RegularLevel extends Level {
 		for (int i=WIDTH+1; i < LENGTH-WIDTH-1; i++) {
 			if (map[i] == Terrain.EMPTY && grass[i]) {
 				int count = 1;
-				for (int n : NEIGHBOURS8) {
+				for (int n : NEIGHBOURS8) {//统计周围8个格子,即九宫格周围是否为草
 					if (grass[i + n]) {
 						count++;
 					}
 				}
+				//随机出普通的草或者高草
 				map[i] = (Random.Float() < count / 12f) ? Terrain.HIGH_GRASS : Terrain.GRASS;
 			}
 		}
 	}
 	
+	/**生成水块的随机方法*/
 	protected abstract boolean[] water();
+	/**生成草块的随机方法*/
 	protected abstract boolean[] grass();
 	
+	/**
+	 * map陷阱赋值,都是隐藏陷阱
+	 */
 	protected void placeTraps() {
 		
 		int nTraps = nTraps();
@@ -330,10 +360,18 @@ public abstract class RegularLevel extends Level {
 		}
 	}
 	
+	/**
+	 * 返回陷阱数量
+	 * @return
+	 */
 	protected int nTraps() {
 		return Dungeon.depth <= 1 ? 0 : Random.Int( 1, rooms.size() + Dungeon.depth );
 	}
 	
+	/**
+	 * 8种陷阱的概率
+	 * @return
+	 */
 	protected float[] trapChances() {
 		float[] chances = { 1, 1, 1, 1, 1, 1, 1, 1 };
 		return chances;
@@ -342,53 +380,62 @@ public abstract class RegularLevel extends Level {
 	protected int minRoomSize = 7;
 	protected int maxRoomSize = 9;
 	
+	/**
+	 * 划分房间
+	 * @param rect
+	 */
 	protected void split( Rect rect ) {
 		
 		int w = rect.width();
 		int h = rect.height();
 		
-		if (w > maxRoomSize && h < minRoomSize) {
-
+		if (w > maxRoomSize && h < minRoomSize) {// 横分割,高度已满足最小空间
 			int vw = Random.Int( rect.left + 3, rect.right - 3 );
-			split( new Rect( rect.left, rect.top, vw, rect.bottom ) );
-			split( new Rect( vw, rect.top, rect.right, rect.bottom ) );
+			split( new Rect( rect.left, rect.top, vw, rect.bottom ) );// 左边空间
+			split( new Rect( vw, rect.top, rect.right, rect.bottom ) );// 右边空间
 			
 		} else 
-		if (h > maxRoomSize && w < minRoomSize) {
-
+		if (h > maxRoomSize && w < minRoomSize) {// 竖分割 ,宽已满足最小空间
 			int vh = Random.Int( rect.top + 3, rect.bottom - 3 );
-			split( new Rect( rect.left, rect.top, rect.right, vh ) );
-			split( new Rect( rect.left, vh, rect.right, rect.bottom ) );
+			split( new Rect( rect.left, rect.top, rect.right, vh ) );// 上边空间
+			split( new Rect( rect.left, vh, rect.right, rect.bottom ) );// 下边空间
 			
-		} else 	
-		if ((Math.random() <= (minRoomSize * minRoomSize / rect.square()) && w <= maxRoomSize && h <= maxRoomSize) || w < minRoomSize || h < minRoomSize) {
+		} else if ((Math.random() <= (minRoomSize * minRoomSize / rect.square()) // 最小面积/空间面积=大于0或者大于等于1, 大于等于1时,肯定是足够小空间可以作为房间
+				&& w <= maxRoomSize // 宽少于等于最大值
+				&& h <= maxRoomSize) // 高少于等于最大值
+				|| w < minRoomSize // 宽少于最小值
+				|| h < minRoomSize) {// 高少于最小值
 
-			rooms.add( (Room)new Room().set( rect ) );
+			rooms.add( (Room)new Room().set( rect ) );// 分割出一个房间
 			
 		} else {
-			
-			if (Random.Float() < (float)(w - 2) / (w + h - 4)) {
-				int vw = Random.Int( rect.left + 3, rect.right - 3 );
-				split( new Rect( rect.left, rect.top, vw, rect.bottom ) );
-				split( new Rect( vw, rect.top, rect.right, rect.bottom ) );
+			float r = (float)(w - 2) / (w + h - 4);//TODO FIXME
+			if (Random.Float() < r) {// 按概率(r的规律：当w比较小,h比较大的时候,r值会比较小,这时候会大概率的出现竖分割,相反情况也一样), 横或竖分割房间,
+				Log.i("横分割","w:"+ w + " h:" + h + " r:" + r);
+				int vw = Random.Int( rect.left + 3, rect.right - 3 );// 横分段
+				split( new Rect( rect.left, rect.top, vw, rect.bottom ) );// 左边空间
+				split( new Rect( vw, rect.top, rect.right, rect.bottom ) );// 右边空间
 			} else {
-				int vh = Random.Int( rect.top + 3, rect.bottom - 3 );
-				split( new Rect( rect.left, rect.top, rect.right, vh ) );
-				split( new Rect( rect.left, vh, rect.right, rect.bottom ) );
+				Log.i("竖分割","w:"+ w + " h:" + h + " r:" + r);
+				int vh = Random.Int( rect.top + 3, rect.bottom - 3 );// 竖分段
+				split( new Rect( rect.left, rect.top, rect.right, vh ) );// 上边空间
+				split( new Rect( rect.left, vh, rect.right, rect.bottom ) );// 下边空间
 			}
 			
 		}
 	}
 	
+	/**
+	 * map赋值,用不同类型方块填充房间
+	 */
 	protected void paint() {
-		
 		for (Room r : rooms) {
 			if (r.type != Type.NULL) {
 				placeDoors( r );
-				r.type.paint( this, r );
-			} else {
+				r.type.paint( this, r );//根据房间类型填充块并未不同类型房间的door设置类型
+			} else {//房间类型没有定的 根据层的地形来随机填充
 				if (feeling == Feeling.CHASM && Random.Int( 2 ) == 0) {
-					Painter.fill( this, r, Terrain.WALL );
+					Painter.fill( this, r, Terrain.WALL );//填充墙
 				}
 			}
 		}
@@ -398,20 +445,21 @@ public abstract class RegularLevel extends Level {
 		}
 	}
 	
+	/**
+	 * 房间和连通房间之间新建一个door,未具体反映到map上的
+	 * @param r
+	 */
 	private void placeDoors( Room r ) {
 		for (Room n : r.connected.keySet()) {
-			Room.Door door = r.connected.get( n );
+			Room.Door door = r.connected.get(n);
 			if (door == null) {
-				
-				Rect i = r.intersect( n );
-				if (i.width() == 0) {
-					door = new Room.Door( 
-						i.left, 
+				Rect i = r.intersect( n );//找出相交部位
+				if (i.width() == 0) {//竖相交
+					door = new Room.Door(i.left, 
 						Random.Int( i.top + 1, i.bottom ) );
-				} else {
+				} else {//横相交
 					door = new Room.Door( 
-						Random.Int( i.left + 1, i.right ),
-						i.top);
+						Random.Int( i.left + 1, i.right ), i.top);
 				}
 
 				r.connected.put( n, door );
@@ -420,15 +468,19 @@ public abstract class RegularLevel extends Level {
 		}
 	}
 	
+	/**
+	 * map赋值,把门赋值到地图上
+	 * @param r
+	 */
 	protected void paintDoors( Room r ) {
-		for (Room n : r.connected.keySet()) {
+		for (Room n : r.connected.keySet()) {//会重复赋值？可以优化？
 
 			if (joinRooms( r, n )) {
 				continue;
 			}
 			
 			Room.Door d = r.connected.get( n );
-			int door = d.x + d.y * WIDTH;
+			int door = d.x + d.y * WIDTH;//计算门在map数组中的位置
 			
 			switch (d.type) {
 			case EMPTY:
@@ -465,33 +517,39 @@ public abstract class RegularLevel extends Level {
 		}
 	}
 	
+	/**
+	 * 判断两个房间是否能放置door,挖空能放置门的墙体,map赋值
+	 * @param r
+	 * @param n
+	 * @return false 不能放置 true 可以放置
+	 */
 	protected boolean joinRooms( Room r, Room n ) {
-		
+		// 非标准房间,至少一个房间为标准房间才能放置门
 		if (r.type != Room.Type.STANDARD || n.type != Room.Type.STANDARD) {
 			return false;
 		}
 		
-		Rect w = r.intersect( n );
-		if (w.left == w.right) {
+		Rect w = r.intersect( n );//计算相交矩形
+		if (w.left == w.right) {//竖相交,直接比较不用width()少一次计算
 			
-			if (w.bottom - w.top < 3) {
+			if (w.bottom - w.top < 3) {//相交不超过3个方块时
 				return false;
 			}
 			
-			if (w.height() == Math.max( r.height(), n.height() )) {
+			if (w.height() == Math.max( r.height(), n.height() )) {//竖方向完全贴在一起的
 				return false;
 			}
 			
-			if (r.width() + n.width() > maxRoomSize) {
+			if (r.width() + n.width() > maxRoomSize) {//超大房间不能放置门
 				return false;
 			}
 			
-			w.top += 1;
-			w.bottom -= 0;
+			w.top += 1;//下移一格
+			w.bottom -= 0;//意义何在?
 			
-			w.right++;
+			w.right++;//意义何在?
 			
-			Painter.fill( this, w.left, w.top, 1, w.height(), Terrain.EMPTY );
+			Painter.fill( this, w.left, w.top, 1, w.height(), Terrain.EMPTY );//挖空相交方块 最顶 最底的不挖空
 			
 		} else {
 			
@@ -508,11 +566,11 @@ public abstract class RegularLevel extends Level {
 			}
 			
 			w.left += 1;
-			w.right -= 0;
+			w.right -= 0;//意义何在?
 			
-			w.bottom++;
+			w.bottom++;//意义何在?
 			
-			Painter.fill( this, w.left, w.top, w.width(), 1, Terrain.EMPTY );
+			Painter.fill( this, w.left, w.top, w.width(), 1, Terrain.EMPTY );//挖空相交方块 最左 最右的不挖空
 		}
 		
 		return true;
@@ -580,10 +638,13 @@ public abstract class RegularLevel extends Level {
 		}
 	}
 	
+	/**
+	 * 创建Item,至少三个Item
+	 */
 	@Override
 	protected void createItems() {
 		
-		int nItems = 3;
+		int nItems = 3;//至少3个item
 		while (Random.Float() < 0.4f) {
 			nItems++;
 		}
@@ -592,21 +653,24 @@ public abstract class RegularLevel extends Level {
 			Heap.Type type = null;
 			switch (Random.Int( 20 )) {
 			case 0:
-				type = Heap.Type.SKELETON;
-				break;
+//				type = Heap.Type.SKELETON;
+//				break;
 			case 1:
 			case 2:
 			case 3:
 			case 4:
-				type = Heap.Type.CHEST;
-				break;
+//				type = Heap.Type.CHEST;
+//				break;
 			case 5:
-				type = Dungeon.depth > 1 ? Heap.Type.MIMIC : Heap.Type.CHEST;
-				break;
+//				type = Dungeon.depth > 1 ? Heap.Type.MIMIC : Heap.Type.CHEST;
+//				break;
 			default:
-				type = Heap.Type.HEAP;
+//				type = Heap.Type.HEAP;
+				type = Heap.Type.CHEST;//TODO FIXME
 			}
-			drop( Generator.random(), randomDropCell() ).type = type;
+			Item item = Generator.random();
+			drop( item, randomDropCell() ).type = type;
+			Log.i("房间生成的箱子", item.info());
 		}
 
 		for (Item item : itemsToSpawn) {

@@ -19,6 +19,8 @@ package com.watabou.pixeldungeon.scenes;
 
 import java.io.FileNotFoundException;
 
+import android.util.Log;
+
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
@@ -213,17 +215,20 @@ public class InterlevelScene extends PixelScene {
 				Dungeon.chapters.add( WndStory.ID_SEWERS );
 				noStory = false;
 			}
-			GameLog.wipe();
+			GameLog.wipe();//clear
 		} else {
 			Dungeon.saveLevel();
+			Log.d("descend()", "保存地牢等级");
 		}
 		
 		Level level;
 		if (Dungeon.depth >= Statistics.deepestFloor) {
 			level = Dungeon.newLevel();
+			Log.d("descend()", "新建地牢等级");
 		} else {
 			Dungeon.depth++;
 			level = Dungeon.loadLevel( Dungeon.hero.heroClass );
+			Log.d("descend()", "load地牢等级");
 		}
 		Dungeon.switchLevel( level, level.entrance );
 	}

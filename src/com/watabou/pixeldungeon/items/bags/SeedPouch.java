@@ -21,6 +21,11 @@ import com.watabou.pixeldungeon.items.Item;
 import com.watabou.pixeldungeon.plants.Plant;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
+/**
+ * 种子袋
+ * @author 
+ *
+ */
 public class SeedPouch extends Bag {
 
 	{

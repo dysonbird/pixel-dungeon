@@ -26,8 +26,11 @@ public class ItemSpriteSheet {
 	public static final int SMTH	= 127;
 	
 	// Keys
+	/**骨钥匙*/
 	public static final int SKELETON_KEY	= 8;
+	/**铁钥匙*/
 	public static final int IRON_KEY		= 9;
+	/**金钥匙*/
 	public static final int GOLDEN_KEY		= 10;
 	
 	// Melee weapons

@@ -40,6 +40,11 @@ import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+/**
+ * 种植
+ * @author 
+ *
+ */
 public class Plant implements Bundlable {
 
 	public String plantName;
@@ -92,6 +97,11 @@ public class Plant implements Bundlable {
 		return null;
 	}
 	
+	/**
+	 * 种子
+	 * @author 
+	 *
+	 */
 	public static class Seed extends Item {
 		
 		public static final String AC_PLANT	= "PLANT";

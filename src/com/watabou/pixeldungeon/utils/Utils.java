@@ -25,6 +25,12 @@ public class Utils {
 		return Character.toUpperCase( str.charAt( 0 ) ) + str.substring( 1 );
 	}
 	
+	/**
+	 * 格式化字符串
+	 * @param format
+	 * @param args
+	 * @return
+	 */
 	public static String format( String format, Object...args ) {
 		return String.format( Locale.ENGLISH, format, args );
 	}
