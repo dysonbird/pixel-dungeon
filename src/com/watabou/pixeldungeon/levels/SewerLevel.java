@@ -56,9 +56,11 @@ public class SewerLevel extends RegularLevel {
 		return Patch.generate( feeling == Feeling.GRASS ? 0.60f : 0.40f, 4 );
 	}
 	
+	/**
+	 * decorate 装饰
+	 */
 	@Override
 	protected void decorate() {
-		
 		for (int i=0; i < WIDTH; i++) {
 			if (map[i] == Terrain.WALL &&  
 				map[i + WIDTH] == Terrain.WATER &&

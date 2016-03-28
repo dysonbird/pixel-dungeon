@@ -31,16 +31,16 @@ public class StandardPainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
 		
-		fill( level, room, Terrain.WALL );
+		fill( level, room, Terrain.WALL );//把房间全填满WALL 再去挖空
 		for (Room.Door door : room.connected.values()) {
-			door.set( Room.Door.Type.REGULAR );
+			door.set( Room.Door.Type.REGULAR );//把door全部设置为普通的
 		}
 		
-		if (!Dungeon.bossLevel() && Random.Int( 5 ) == 0) {
-			switch (Random.Int( 6 )) {
-			case 0:
-				if (level.feeling != Level.Feeling.GRASS) {
-					if (Math.min( room.width(), room.height() ) >= 4 && Math.max( room.width(), room.height() ) >= 6) {
+		if (!Dungeon.bossLevel() && Random.Int( 5 ) == 0) {//非boss关卡 随机五分之一机会
+			switch (Random.Int(6)) {//六种普通房间类型
+			case 0://墓地
+				if (level.feeling != Level.Feeling.GRASS) {//草丛类型的关卡
+					if (Math.min( room.width(), room.height() ) >= 4 && Math.max( room.width(), room.height() ) >= 6) {//房间大小至少4X6
 						paintGraveyard( level, room );
 						return;
 					}
@@ -48,25 +48,25 @@ public class StandardPainter extends Painter {
 				} else {
 					// Burned room
 				}
-			case 1:
+			case 1://有可能是火陷阱的房间
 				if (Dungeon.depth > 1) {
 					paintBurned( level, room );
 					return;
 				}
 				break;
-			case 2:
+			case 2://高草横或竖带状分布
 				if (Math.max( room.width(), room.height() ) >= 4) {
 					paintStriped( level, room );
 					return;
 				}
 				break;
-			case 3:
-				if (room.width() >= 6 && room.height() >= 6) {
+			case 3://四周有书架的房间 中间有一个底座
+				if (room.width() >= 6 && room.height() >= 6) {//6X6
 					paintStudy( level, room );
 					return;
 				}
 				break;
-			case 4:
+			case 4://桥 只有两个door 用桥把两个door连接起来
 				if (level.feeling != Level.Feeling.WATER) {
 					if (room.connected.size() == 2 && room.width() >= 4 && room.height() >= 4) {
 						paintBridge( level, room );
@@ -76,9 +76,10 @@ public class StandardPainter extends Painter {
 				} else {
 					// Fissure
 				}
-			case 5:
-				if (!Dungeon.bossLevel() && !Dungeon.bossLevel( Dungeon.depth + 1 ) && 
-					Math.min( room.width(), room.height() ) >= 5) {
+			case 5://房间有裂縫
+				if (!Dungeon.bossLevel() 
+						&& !Dungeon.bossLevel( Dungeon.depth + 1 ) 
+						&& Math.min( room.width(), room.height() ) >= 5) {
 					paintFissure( level, room );
 					return;
 				}
@@ -86,7 +87,7 @@ public class StandardPainter extends Painter {
 			}
 		}
 		
-		fill( level, room, 1, Terrain.EMPTY );
+		fill( level, room, 1, Terrain.EMPTY );//只留厚度为1的墙
 	}
 	
 	private static void paintBurned( Level level, Room room ) {
@@ -107,13 +108,14 @@ public class StandardPainter extends Painter {
 					t = Terrain.INACTIVE_TRAP;
 					break;
 				}
-				level.map[i * Level.WIDTH + j] = t;
+				set(level, j, i, t);
+//				level.map[i * Level.WIDTH + j] = t;
 			}
 		}
 	}
 	
 	private static void paintGraveyard( Level level, Room room ) {
-		fill( level, room.left + 1, room.top + 1, room.width() - 1, room.height() - 1 , Terrain.GRASS );
+		fill( level, room.left + 1, room.top + 1, room.width() - 1, room.height() - 1 , Terrain.GRASS );//整个房间为草地
 		
 		int w = room.width() - 1;
 		int h = room.height() - 1;

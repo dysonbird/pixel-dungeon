@@ -201,6 +201,10 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		
 	}
 	
+	/**
+	 * 记录到出口的路径 (Room,Door)
+	 * @param room 
+	 */
 	public void connect( Room room ) {
 		if (!connected.containsKey( room )) {	
 			connected.put( room, null );

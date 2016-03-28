@@ -52,6 +52,13 @@ public class Painter {
 		fill( level, rect.left, rect.top, rect.width() + 1, rect.height() + 1, value );
 	}
 	
+	/**
+	 * 
+	 * @param level
+	 * @param rect
+	 * @param m 墙的厚度
+	 * @param value
+	 */
 	public static void fill( Level level, Rect rect, int m, int value ) {
 		fill( level, rect.left + m, rect.top + m, rect.width() + 1 - m*2, rect.height() + 1 - m*2, value );
 	}

@@ -69,7 +69,7 @@ public class Heap implements Bundlable {
 		LOCKED_CHEST,
 		/**水晶箱子*/
 		CRYSTAL_CHEST,
-		/**墓穴*/
+		/**墓碑*/
 		TOMB,
 		/**骷髅*/
 		SKELETON,

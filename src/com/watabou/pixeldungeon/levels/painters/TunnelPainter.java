@@ -31,29 +31,30 @@ public class TunnelPainter extends Painter {
 		Point c = room.center();
 		
 		if (room.width() > room.height() || (room.width() == room.height() && Random.Int( 2 ) == 0)) {
+			//横tunnel
 			
 			int from = room.right - 1;
 			int to = room.left + 1;
 			
 			for (Room.Door door : room.connected.values()) {
 				
-				int step = door.y < c.y ? +1 : -1;
+				int step = door.y < c.y ? +1 : -1;//步长
 				
-				if (door.x == room.left) {
+				if (door.x == room.left) {//左侧的door
 					
 					from = room.left + 1;
 					for (int i=door.y; i != c.y; i += step) {
 						set( level, from, i, floor );
 					}
 					
-				} else if (door.x == room.right) {
+				} else if (door.x == room.right) {//右侧的door
 					
 					to = room.right - 1;
 					for (int i=door.y; i != c.y; i += step) {
 						set( level, to, i, floor );
 					}
 					
-				} else {
+				} else {//上下的door
 					if (door.x < from) {
 						from = door.x;
 					}
@@ -67,12 +68,12 @@ public class TunnelPainter extends Painter {
 				}
 			}
 			
-			for (int i=from; i <= to; i++) {
+			for (int i=from; i <= to; i++) {//填充横通道
 				set( level, i, c.y, floor );
 			}
 			
 		} else {
-			
+			//竖tunnel
 			int from = room.bottom - 1;
 			int to = room.top + 1;
 			
@@ -113,7 +114,7 @@ public class TunnelPainter extends Painter {
 			}
 		}
 		
-		for (Room.Door door : room.connected.values()) {
+		for (Room.Door door : room.connected.values()) {//修改door的类型为tunnel 最终类型不一定是tunnel的
 			door.set( Room.Door.Type.TUNNEL );
 		}
 	}

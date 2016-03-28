@@ -186,7 +186,7 @@ public abstract class RegularLevel extends Level {
 		
 		int specialRooms = 0;
 		for (Room r : rooms) {
-			if (r.type == Type.NULL && r.connected.size() == 1) {
+			if (r.type == Type.NULL && r.connected.size() == 1) {//单一入口的房间
 				if (specials.size() > 0 
 						&& r.width() > 3 
 						&& r.height() > 3 
@@ -212,10 +212,8 @@ public abstract class RegularLevel extends Level {
 						
 					} else {
 						
-//						int n = specials.size();
-//						r.type = specials.get( Math.min( Random.Int( n ), Random.Int( n ) ) );
-						r.type = Type.TREASURY;// TODO FIXME
-						Log.i("创建房间类型", "宝库");
+						int n = specials.size();
+						r.type = specials.get( Math.min( Random.Int( n ), Random.Int( n ) ) );
 						if (r.type == Type.WEAK_FLOOR) {
 							weakFloorCreated = true;
 						}
@@ -225,13 +223,12 @@ public abstract class RegularLevel extends Level {
 					specials.remove( r.type );
 					specialRooms++;
 					
-				} else if (Random.Int( 2 ) == 0){//随机连通周围一个不是pit的邻居
-
+				} else if (Random.Int(2) == 0){//三分之一的机会 随机连通周围一个不是pit的邻居
 					HashSet<Room> neigbours = new HashSet<Room>();
 					for (Room n : r.neigbours) {
-						if (!r.connected.containsKey( n ) && 
-							!Room.SPECIALS.contains( n.type ) &&
-							n.type != Type.PIT) {
+						if (!r.connected.containsKey( n ) 
+								&& !Room.SPECIALS.contains( n.type ) 
+								&& n.type != Type.PIT) {
 							
 							neigbours.add( n );
 						}
@@ -409,7 +406,7 @@ public abstract class RegularLevel extends Level {
 			rooms.add( (Room)new Room().set( rect ) );// 分割出一个房间
 			
 		} else {
-			float r = (float)(w - 2) / (w + h - 4);//TODO FIXME
+			float r = (float)(w - 2) / (w + h - 4);
 			if (Random.Float() < r) {// 按概率(r的规律：当w比较小,h比较大的时候,r值会比较小,这时候会大概率的出现竖分割,相反情况也一样), 横或竖分割房间,
 				Log.i("横分割","w:"+ w + " h:" + h + " r:" + r);
 				int vw = Random.Int( rect.left + 3, rect.right - 3 );// 横分段
@@ -653,20 +650,19 @@ public abstract class RegularLevel extends Level {
 			Heap.Type type = null;
 			switch (Random.Int( 20 )) {
 			case 0:
-//				type = Heap.Type.SKELETON;
-//				break;
+				type = Heap.Type.SKELETON;
+				break;
 			case 1:
 			case 2:
 			case 3:
 			case 4:
-//				type = Heap.Type.CHEST;
-//				break;
+				type = Heap.Type.CHEST;
+				break;
 			case 5:
-//				type = Dungeon.depth > 1 ? Heap.Type.MIMIC : Heap.Type.CHEST;
-//				break;
+				type = Dungeon.depth > 1 ? Heap.Type.MIMIC : Heap.Type.CHEST;
+				break;
 			default:
-//				type = Heap.Type.HEAP;
-				type = Heap.Type.CHEST;//TODO FIXME
+				type = Heap.Type.HEAP;
 			}
 			Item item = Generator.random();
 			drop( item, randomDropCell() ).type = type;
