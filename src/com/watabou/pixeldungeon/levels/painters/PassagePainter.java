@@ -29,6 +29,39 @@ public class PassagePainter extends Painter {
 	private static int pasWidth;
 	private static int pasHeight;
 	
+	/**
+	 * <p>_ _ _ _ _ _ D _ _ _</p>
+	 * <p>| 1 * 6 5 4 3 2 1 |</P>
+	 * <p>| 2 # # # # # # 6 |</P>
+	 * <p>| 3 # # # # # # 5 |</P>
+	 * <p>| 4 # # # # # # 4 |</P>
+	 * <p>D 5 # # # # # # 3 |</P>
+	 * <p>| 6 # # # # # # 2 D</P>
+	 * <p>| 1 2 3 4 5 6 7 1 |</P>
+	 * <p>| _ _ _ _ _ _ D _ |</P>
+	 * 以上Room pasWidth = 7 pasHeight = 6</p>
+	 * joints 为逆时针到星号的格子数</p>
+	 * 所以 left.D = 2 + 2 * pasWidth + pasHeight = 22</p>
+	 * bottom.D = 1 + pasWidth + pasHeight = 14</p>
+	 * right.D = 5 + pasWidth = 12</p>
+	 * top.D = 5</p>
+	 * perimeter = 26</p>
+	 * start = 0</p>
+	 * end = 3 </p>
+	 * maxD = 9</p>
+	 * 最终的连通路径(顺时针的)为 top.D-->right.D-->bottom.D-->left.D</p>
+	 * <p>_ _ _ _ _ _ D _ _ _</p>
+	 * <p>| 1 * 6 5 4 ~ ~ ~ |</P>
+	 * <p>| 2 # # # # # # ~ |</P>
+	 * <p>| 3 # # # # # # ~ |</P>
+	 * <p>| 4 # # # # # # ~ |</P>
+	 * <p>D ~ # # # # # # ~ |</P>
+	 * <p>| ~ # # # # # # ~ D</P>
+	 * <p>| ~ ~ ~ ~ ~ ~ ~ ~ |</P>
+	 * <p>| _ _ _ _ _ _ D _ |</P>
+	 * @param level
+	 * @param room
+	 */
 	public static void paint( Level level, Room room ) {
 		
 		pasWidth = room.width() - 2;
@@ -40,10 +73,10 @@ public class PassagePainter extends Painter {
 		for (Point door : room.connected.values()) {
 			joints.add( xy2p( room, door ) );
 		}
-		Collections.sort( joints );
+		Collections.sort( joints );//升序
 		
 		int nJoints = joints.size();
-		int perimeter = pasWidth * 2 + pasHeight * 2;
+		int perimeter = pasWidth * 2 + pasHeight * 2;//边界 墙 贴墙连通一圈door的最大格子数
 		
 		int start = 0;
 		int maxD = joints.get( 0 ) + perimeter - joints.get( nJoints - 1 );
@@ -70,20 +103,26 @@ public class PassagePainter extends Painter {
 		}
 	}
 	
+	/**
+	 * door贴墙逆时针计算 到(room.left+2,room.top+1)的格子数
+	 * @param room
+	 * @param xy
+	 * @return
+	 */
 	private static int xy2p( Room room, Point xy ) {
-		if (xy.y == room.top) {
+		if (xy.y == room.top) {//上边
 			
 			return (xy.x - room.left - 1);
 			
-		} else if (xy.x == room.right) {
+		} else if (xy.x == room.right) {//右边
 			
 			return (xy.y - room.top - 1) + pasWidth;
 			
-		} else if (xy.y == room.bottom) {
+		} else if (xy.y == room.bottom) {//下边
 			
 			return (room.right - xy.x - 1) + pasWidth + pasHeight;
 			
-		} else /*if (xy.x == room.left)*/ {
+		} else /*if (xy.x == room.left)*/ {//左边
 			
 			if (xy.y == room.top + 1) {
 				return 0;
@@ -95,19 +134,19 @@ public class PassagePainter extends Painter {
 	}
 	
 	private static Point p2xy( Room room, int p ) {
-		if (p < pasWidth) {
+		if (p < pasWidth) {//贴着上边墙的格子
 			
 			return new Point( room.left + 1 + p, room.top + 1);
 			
-		} else if (p < pasWidth + pasHeight) {
+		} else if (p < pasWidth + pasHeight) {//贴着右边墙的格子
 			
 			return new Point( room.right - 1, room.top + 1 + (p - pasWidth) );
 			
-		} else if (p < pasWidth * 2 + pasHeight) {
+		} else if (p < pasWidth * 2 + pasHeight) {//贴着下边墙的格子
 			
 			return new Point( room.right - 1 - (p - (pasWidth + pasHeight)), room.bottom - 1 );
 			
-		} else {
+		} else {//贴着左边墙的格子
 
 			return new Point( room.left + 1, room.bottom - 1 - (p - (pasWidth * 2 + pasHeight)) );
 			
