@@ -33,7 +33,7 @@ public class BossExitPainter extends Painter {
 		}
 		
 		level.exit = room.top * Level.WIDTH + (room.left + room.right) / 2;
-		set( level, level.exit, Terrain.LOCKED_EXIT );
+		set( level, level.exit, Terrain.LOCKED_EXIT );// 关闭的出口
 	}
 	
 }

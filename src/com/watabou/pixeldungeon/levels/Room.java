@@ -70,7 +70,7 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		 */
 		TUNNEL		( TunnelPainter.class ),
 		/**
-		 * 通道
+		 * 通道(贴墙顺时针连通的路径)
 		 */
 		PASSAGE		( PassagePainter.class ),
 		/**
@@ -180,6 +180,11 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		return random( 0 );
 	}
 	
+	/**
+	 * 在room中随机一块有效方块出来 不包括墙
+	 * @param m
+	 * @return
+	 */
 	public int random( int m ) {
 		int x = Random.Int( left + 1 + m, right - m );
 		int y = Random.Int( top + 1 + m, bottom - m );

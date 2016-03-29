@@ -25,15 +25,15 @@ public class EntrancePainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
 		
-		fill( level, room, Terrain.WALL );
-		fill( level, room, 1, Terrain.EMPTY );
+		fill( level, room, Terrain.WALL );//先填满墙
+		fill( level, room, 1, Terrain.EMPTY );//只留厚度为1的墙
 		
 		for (Room.Door door : room.connected.values()) {
-			door.set( Room.Door.Type.REGULAR );
+			door.set( Room.Door.Type.REGULAR );//所有的door都为普通door
 		}
 		
 		level.entrance = room.random( 1 );
-		set( level, level.entrance, Terrain.ENTRANCE );
+		set( level, level.entrance, Terrain.ENTRANCE );//放置入口方块
 	}
 	
 }
