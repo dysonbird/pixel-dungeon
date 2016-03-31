@@ -28,6 +28,11 @@ import com.watabou.pixeldungeon.levels.Room;
 import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.utils.Random;
 
+/**
+ * 鼠王
+ * @author 
+ *
+ */
 public class RatKingPainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
@@ -39,6 +44,7 @@ public class RatKingPainter extends Painter {
 		entrance.set( Room.Door.Type.HIDDEN );
 		int door = entrance.x + entrance.y * Level.WIDTH;
 		
+		/*除了门口 贴墙的地方都放置一个箱子*/
 		for (int i=room.left + 1; i < room.right; i++) {
 			addChest( level, (room.top + 1) * Level.WIDTH + i, door );
 			addChest( level, (room.bottom - 1) * Level.WIDTH + i, door );

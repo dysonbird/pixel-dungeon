@@ -49,15 +49,25 @@ public class Generator {
 	 *
 	 */
 	public static enum Category {
+		/**武器*/
 		WEAPON	( 15,	Weapon.class ),
+		/**护甲*/
 		ARMOR	( 10,	Armor.class ),
+		/**药水*/
 		POTION	( 50,	Potion.class ),
+		/**卷轴*/
 		SCROLL	( 40,	Scroll.class ),
+		/**魔杖*/
 		WAND	( 4,	Wand.class ),
+		/**戒指*/
 		RING	( 2,	Ring.class ),
+		/**种子*/
 		SEED	( 5,	Plant.Seed.class ),
+		/**食物*/
 		FOOD	( 0,	Food.class ),
+		/**金币*/
 		GOLD	( 50,	Gold.class ),
+		/**杂物*/
 		MISC	( 5,	Item.class );
 		
 		public Class<?>[] classes;
@@ -219,7 +229,7 @@ public class Generator {
 	public static Item random( Category cat ) {
 		try {
 			
-			categoryProbs.put( cat, categoryProbs.get( cat ) / 2 );
+			categoryProbs.put( cat, categoryProbs.get( cat ) / 2 );// 概率减半?
 			
 			switch (cat) {
 			case ARMOR:

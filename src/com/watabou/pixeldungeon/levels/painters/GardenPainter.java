@@ -25,24 +25,29 @@ import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.pixeldungeon.plants.Sungrass;
 import com.watabou.utils.Random;
 
+/**
+ * 公园
+ * @author 
+ *
+ */
 public class GardenPainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
 		
 		fill( level, room, Terrain.WALL );
-		fill( level, room, 1, Terrain.HIGH_GRASS );
-		fill( level, room, 2, Terrain.GRASS );
+		fill( level, room, 1, Terrain.HIGH_GRASS );// 贴墙高草
+		fill( level, room, 2, Terrain.GRASS );// 中间矮草
 		
 		room.entrance().set( Room.Door.Type.REGULAR );
 		
-		if (Random.Int( 2 ) == 0) {
+		if (Random.Int( 2 ) == 0) {// 随机有蜜罐
 			level.drop( new Honeypot(), room.random() );
 		} else {
 			int bushes = (Random.Int( 5 ) == 0 ? 2 : 1);
 			for (int i=0; i < bushes; i++) {
 				int pos = room.random();
-				set( level, pos, Terrain.GRASS );
-				level.plant( new Sungrass.Seed(), pos );
+				set( level, pos, Terrain.GRASS );// 矮草
+				level.plant( new Sungrass.Seed(), pos );// 太阳草种子
 			}
 		}
 		

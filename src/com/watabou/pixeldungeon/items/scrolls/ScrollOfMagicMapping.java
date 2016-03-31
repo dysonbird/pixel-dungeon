@@ -29,6 +29,11 @@ import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.pixeldungeon.scenes.GameScene;
 import com.watabou.pixeldungeon.utils.GLog;
 
+/**
+ * 魔法地图卷轴 显示隐藏块的
+ * @author Administrator
+ *
+ */
 public class ScrollOfMagicMapping extends Scroll {
 
 	private static final String TXT_LAYOUT = "You are now aware of the level layout.";

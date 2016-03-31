@@ -19,6 +19,11 @@ package com.watabou.pixeldungeon.items.weapon.melee;
 
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
+/**
+ * 长刀(类似关刀?)
+ * @author 
+ *
+ */
 public class Glaive extends MeleeWeapon {
 
 	{
@@ -26,6 +31,9 @@ public class Glaive extends MeleeWeapon {
 		image = ItemSpriteSheet.GLAIVE;
 	}
 	
+	/**
+	 * 长刀
+	 */
 	public Glaive() {
 		super( 5, 1f, 1f );
 	}

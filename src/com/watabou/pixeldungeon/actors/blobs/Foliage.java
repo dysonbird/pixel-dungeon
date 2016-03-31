@@ -28,6 +28,11 @@ import com.watabou.pixeldungeon.levels.Level;
 import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.pixeldungeon.scenes.GameScene;
 
+/**
+ * 树叶
+ * @author 
+ *
+ */
 public class Foliage extends Blob {
 	
 	@Override

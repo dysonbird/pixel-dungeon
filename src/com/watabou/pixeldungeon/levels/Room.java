@@ -134,11 +134,11 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 		 */
 		RAT_KING	( RatKingPainter.class ),
 		/**
-		 * 弱大厅
+		 * 木地板有裂缝房间
 		 */
 		WEAK_FLOOR	( WeakFloorPainter.class ),
 		/**
-		 * 地穴
+		 * 枯水泉
 		 */
 		PIT			( PitPainter.class ),
 		/**
@@ -332,19 +332,19 @@ public class Room extends Rect implements Graph.Node, Bundlable {
 	public static class Door extends Point {
 		
 		public static enum Type {
-			/**空门*/
+			/**空门 没有门板 用地板填充*/
 			EMPTY, 
-			/**隧道*/
+			/**隧道 也是用随机地板填充?*/
 			TUNNEL, 
-			/**普通*/
+			/**普通 一般普通门板*/
 			REGULAR, 
-			/**开启的*/
+			/**开启的 和普通门一样？*/
 			UNLOCKED, 
-			/**隐藏的门*/
+			/**隐藏的门 用墙填充的门*/
 			HIDDEN, 
-			/**栅栏*/
+			/**栅栏 书架或者木栅栏充当阻挡的门*/
 			BARRICADE, 
-			/**有锁的门*/
+			/**有锁的门 有个锁头的门*/
 			LOCKED
 		}
 		public Type type = Type.EMPTY;

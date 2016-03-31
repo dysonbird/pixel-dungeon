@@ -29,6 +29,11 @@ import com.watabou.pixeldungeon.windows.WndBag;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 
+/**
+ * 背包
+ * @author 
+ *
+ */
 public class Bag extends Item implements Iterable<Item> {
 
 	public static final String AC_OPEN	= "OPEN";

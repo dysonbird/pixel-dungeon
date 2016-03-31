@@ -28,6 +28,11 @@ import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.pixeldungeon.ui.BuffIndicator;
 import com.watabou.utils.Bundle;
 
+/**
+ * 太阳草(汁液有治愈能力)
+ * @author Administrator
+ *
+ */
 public class Sungrass extends Plant {
 
 	private static final String TXT_DESC = "Sungrass is renowned for its sap's healing properties.";

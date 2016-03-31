@@ -34,6 +34,11 @@ import com.watabou.pixeldungeon.utils.Utils;
 import com.watabou.pixeldungeon.windows.IconTitle;
 import com.watabou.pixeldungeon.windows.WndBag;
 
+/**
+ * 加速或者精确宝石
+ * @author 
+ *
+ */
 public class Weightstone extends Item {
 	
 	private static final String TXT_SELECT_WEAPON	= "Select a weapon to balance";

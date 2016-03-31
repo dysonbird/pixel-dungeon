@@ -33,6 +33,11 @@ import com.watabou.pixeldungeon.scenes.GameScene;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.utils.Random;
 
+/**
+ * 蜜罐
+ * @author 
+ *
+ */
 public class Honeypot extends Item {
 	
 	public static final String AC_SHATTER	= "SHATTER";

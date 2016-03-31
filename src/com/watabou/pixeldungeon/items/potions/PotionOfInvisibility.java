@@ -26,6 +26,11 @@ import com.watabou.pixeldungeon.actors.buffs.Invisibility;
 import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.utils.GLog;
 
+/**
+ * 隐形药水
+ * @author 
+ *
+ */
 public class PotionOfInvisibility extends Potion {
 
 	private static final float ALPHA	= 0.4f;

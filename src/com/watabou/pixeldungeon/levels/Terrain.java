@@ -23,13 +23,13 @@ package com.watabou.pixeldungeon.levels;
  *
  */
 public class Terrain {
-	/**裂缝*/
+	/**悬空的裂缝 会掉下去死掉*/
 	public static final int CHASM			= 0;
-	/**空*/
+	/**空地板 各种类型的实地?*/
 	public static final int EMPTY			= 1;
 	/**草块*/
 	public static final int GRASS			= 2;
-	/**空墙*/
+	/**没有泉水的口子*/
 	public static final int EMPTY_WELL		= 3;
 	/**墙*/
 	public static final int WALL			= 4;
@@ -41,45 +41,45 @@ public class Terrain {
 	public static final int ENTRANCE		= 7;
 	/**出口*/
 	public static final int EXIT			= 8;
-	/**余火*/
+	/**余烬格子 有火星*/
 	public static final int EMBERS			= 9;
 	/**锁上的门*/
 	public static final int LOCKED_DOOR		= 10;
-	/**底座*/
+	/**底座 不能站在上面*/
 	public static final int PEDESTAL		= 11;
-	/**墙装饰*/
+	/**墙装饰(水沟的流水口)*/
 	public static final int WALL_DECO		= 12;
-	/**栅栏*/
+	/**木头栅栏(阻挡)*/
 	public static final int BARRICADE		= 13;
-	/***/
+	/**空地板 木头的*/
 	public static final int EMPTY_SP		= 14;
 	/**高草*/
 	public static final int HIGH_GRASS		= 15;
-	/**空装饰*/
+	/**绿色团状草丛装饰的地板*/
 	public static final int EMPTY_DECO		= 24;
 	/**锁上的出口*/
 	public static final int LOCKED_EXIT		= 25;
 	/**打开的出口*/
 	public static final int UNLOCKED_EXIT	= 26;
-	/**标记*/
+	/**插在地上的牌子*/
 	public static final int SIGN			= 29;
-	/**泉*/
+	/**有泉水的口子*/
 	public static final int WELL			= 34;
-	/**雕像*/
+	/**石地板上的雕像*/
 	public static final int STATUE			= 35;
-	/***/
+	/**木地板上的雕像*/
 	public static final int STATUE_SP		= 36;
 	/**书架*/
 	public static final int BOOKSHELF		= 41;
-	/**魔力*/
+	/**类似花盆 可以播种种子*/
 	public static final int ALCHEMY			= 42;
-	/**裂缝层*/
+	/**石头裂缝  会掉下去死掉*/
 	public static final int CHASM_FLOOR		= 43;
-	/***/
+	/**木头裂缝  会掉下去死掉*/
 	public static final int CHASM_FLOOR_SP	= 44;
-	/**裂缝墙*/
+	/**墙体裂缝 会掉下去死掉*/
 	public static final int CHASM_WALL		= 45;
-	/**裂缝水*/
+	/**流水裂缝 会掉下去死掉 有水花飘起*/
 	public static final int CHASM_WATER		= 46;
 	
 	/**隐藏的门*/

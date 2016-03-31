@@ -19,6 +19,11 @@ package com.watabou.pixeldungeon.items.weapon.melee;
 
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
+/**
+ * 战锤
+ * @author 
+ *
+ */
 public class WarHammer extends MeleeWeapon {
 
 	{
@@ -26,6 +31,9 @@ public class WarHammer extends MeleeWeapon {
 		image = ItemSpriteSheet.WAR_HAMMER;
 	}
 	
+	/**
+	 * 战锤
+	 */
 	public WarHammer() {
 		super( 5, 1.2f, 1f );
 	}

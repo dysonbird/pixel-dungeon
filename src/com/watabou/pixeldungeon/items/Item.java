@@ -82,6 +82,7 @@ public class Item implements Bundlable {
 	protected int quantity = 1;
 	
 	private int level = 0;
+	/**耐久*/
 	private int durability = maxDurability();
 	public boolean levelKnown = false;
 	

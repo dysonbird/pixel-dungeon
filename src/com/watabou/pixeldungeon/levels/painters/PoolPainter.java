@@ -28,6 +28,11 @@ import com.watabou.pixeldungeon.levels.Room;
 import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.utils.Random;
 
+/**
+ * 水池
+ * @author 
+ *
+ */
 public class PoolPainter extends Painter {
 
 	private static final int NPIRANHAS	= 3;
@@ -39,7 +44,8 @@ public class PoolPainter extends Painter {
 		
 		Room.Door door = room.entrance(); 
 		door.set( Room.Door.Type.REGULAR );
-
+		
+		/*门的对边中间cell*/
 		int x = -1;
 		int y = -1;
 		if (door.x == room.left) {
@@ -65,9 +71,8 @@ public class PoolPainter extends Painter {
 		}
 		
 		int pos = x + y * Level.WIDTH;
-		level.drop( prize( level ), pos ).type = 
-			Random.Int( 3 ) == 0 ? Heap.Type.CHEST : Heap.Type.HEAP;
-		set( level, pos, Terrain.PEDESTAL );
+		level.drop( prize( level ), pos ).type = Random.Int( 3 ) == 0 ? Heap.Type.CHEST : Heap.Type.HEAP;
+		set( level, pos, Terrain.PEDESTAL );// 底座 用于摆放物品的
 		
 		level.addItemToSpawn( new PotionOfInvisibility() );
 		
@@ -75,7 +80,7 @@ public class PoolPainter extends Painter {
 			Piranha piranha = new Piranha();
 			do {
 				piranha.pos = room.random();
-			} while (level.map[piranha.pos] != Terrain.WATER|| Actor.findChar( piranha.pos ) != null);
+			} while (level.map[piranha.pos] != Terrain.WATER || Actor.findChar( piranha.pos ) != null);
 			level.mobs.add( piranha );
 			Actor.occupyCell( piranha );
 		}

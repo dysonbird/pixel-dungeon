@@ -19,6 +19,11 @@ package com.watabou.pixeldungeon.items.weapon.melee;
 
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
+/**
+ * 长剑
+ * @author 
+ *
+ */
 public class Longsword extends MeleeWeapon {
 	
 	{
@@ -26,6 +31,9 @@ public class Longsword extends MeleeWeapon {
 		image = ItemSpriteSheet.LONG_SWORD;
 	}
 	
+	/**
+	 * 长剑
+	 */
 	public Longsword() {
 		super( 4, 1f, 1f );
 	}

@@ -20,6 +20,11 @@ package com.watabou.pixeldungeon.items.food;
 import com.watabou.pixeldungeon.actors.buffs.Hunger;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
+/**
+ * 定额粮食
+ * @author 
+ *
+ */
 public class OverpricedRation extends Food {
 
 	{

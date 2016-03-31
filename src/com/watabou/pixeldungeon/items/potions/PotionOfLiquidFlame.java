@@ -24,6 +24,11 @@ import com.watabou.pixeldungeon.actors.blobs.Blob;
 import com.watabou.pixeldungeon.actors.blobs.Fire;
 import com.watabou.pixeldungeon.scenes.GameScene;
 
+/**
+ * 不稳定的液体
+ * @author 
+ *
+ */
 public class PotionOfLiquidFlame extends Potion {
 
 	{

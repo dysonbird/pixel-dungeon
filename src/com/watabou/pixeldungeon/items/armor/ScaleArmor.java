@@ -19,7 +19,11 @@ package com.watabou.pixeldungeon.items.armor;
 
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
-
+/**
+ * 鳞甲
+ * @author 
+ *
+ */
 public class ScaleArmor extends Armor {
 
 	{
@@ -27,6 +31,9 @@ public class ScaleArmor extends Armor {
 		image = ItemSpriteSheet.ARMOR_SCALE;
 	}
 	
+	/**
+	 * 鳞甲
+	 */
 	public ScaleArmor() {
 		super( 4 );
 	}

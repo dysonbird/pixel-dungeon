@@ -20,6 +20,11 @@ package com.watabou.pixeldungeon.items.armor;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
 
+/**
+ * 锁子甲
+ * @author 
+ *
+ */
 public class MailArmor extends Armor {
 
 	{
@@ -27,6 +32,9 @@ public class MailArmor extends Armor {
 		image = ItemSpriteSheet.ARMOR_MAIL;
 	}
 	
+	/**
+	 * 锁子甲
+	 */
 	public MailArmor() {
 		super( 3 );
 	}

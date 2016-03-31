@@ -59,7 +59,7 @@ public class Heap implements Bundlable {
 	private static final float FADE_TIME = 0.6f;
 	
 	public enum Type {
-		/**灌满*/
+		/**堆 直接显示出物品*/
 		HEAP,
 		/**待售*/
 		FOR_SALE,

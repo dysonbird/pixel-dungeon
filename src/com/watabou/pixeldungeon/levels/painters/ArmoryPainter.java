@@ -27,6 +27,11 @@ import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
+/**
+ * 军械库
+ * @author 
+ *
+ */
 public class ArmoryPainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
@@ -34,6 +39,7 @@ public class ArmoryPainter extends Painter {
 		fill( level, room, Terrain.WALL );
 		fill( level, room, 1, Terrain.EMPTY );
 		
+		/*判断放置雕像的位置*/
 		Room.Door entrance = room.entrance();
 		Point statue = null;
 		if (entrance.x == room.left) {
@@ -55,14 +61,18 @@ public class ArmoryPainter extends Painter {
 			do {
 				pos = room.random();
 			} while (level.map[pos] != Terrain.EMPTY || level.heaps.get( pos ) != null);
-			level.drop( prize( level ), pos );
+			level.drop( prize(), pos );
 		}
 		
-		entrance.set( Room.Door.Type.LOCKED );
-		level.addItemToSpawn( new IronKey() );
+		entrance.set( Room.Door.Type.LOCKED );// 军械库的门锁上
+		level.addItemToSpawn( new IronKey() );// 地图中生成一条铁钥匙
 	}
 	
-	private static Item prize( Level level ) {
+	/**
+	 * 随机一件铠甲或者武器出来 有六分之一的几率是炸弹
+	 * @return
+	 */
+	private static Item prize() {
 		return Random.Int( 6 ) == 0 ?
 			new Bomb().random() :
 			Generator.random( Random.oneOf( 

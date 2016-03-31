@@ -24,6 +24,11 @@ import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.effects.particles.ShadowParticle;
 import com.watabou.pixeldungeon.utils.GLog;
 
+/**
+ * 可装备的物品
+ * @author 
+ *
+ */
 public abstract class EquipableItem extends Item {
 
 	private static final String TXT_UNEQUIP_CURSED	= "You can't remove cursed %s!";

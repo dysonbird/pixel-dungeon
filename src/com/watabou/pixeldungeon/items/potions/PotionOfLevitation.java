@@ -22,6 +22,11 @@ import com.watabou.pixeldungeon.actors.buffs.Levitation;
 import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.utils.GLog;
 
+/**
+ * 悬浮药水
+ * @author 
+ *
+ */
 public class PotionOfLevitation extends Potion {
 
 	{

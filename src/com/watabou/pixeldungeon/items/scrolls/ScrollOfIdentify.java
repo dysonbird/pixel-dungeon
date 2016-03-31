@@ -23,6 +23,11 @@ import com.watabou.pixeldungeon.items.Item;
 import com.watabou.pixeldungeon.utils.GLog;
 import com.watabou.pixeldungeon.windows.WndBag;
 
+/**
+ * 鉴定卷轴
+ * @author 
+ *
+ */
 public class ScrollOfIdentify extends InventoryScroll {
 
 	{

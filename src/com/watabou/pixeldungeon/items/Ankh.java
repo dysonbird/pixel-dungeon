@@ -19,6 +19,11 @@ package com.watabou.pixeldungeon.items;
 
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
+/**
+ * 十字章
+ * @author 
+ *
+ */
 public class Ankh extends Item {
 
 	{

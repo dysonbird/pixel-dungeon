@@ -19,6 +19,11 @@ package com.watabou.pixeldungeon.items.weapon.melee;
 
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
+/**
+ * 矛 长矛 近战武器
+ * @author 
+ *
+ */
 public class Spear extends MeleeWeapon {
 
 	{
@@ -26,10 +31,16 @@ public class Spear extends MeleeWeapon {
 		image = ItemSpriteSheet.SPEAR;
 	}
 	
+	/**
+	 * 矛
+	 */
 	public Spear() {
 		super( 2, 1f, 1.5f );
 	}
 	
+	/**
+	 * 顶端镶嵌着尖锐铁头的细长木杆
+	 */
 	@Override
 	public String desc() {
 		return "A slender wooden rod tipped with sharpened iron.";

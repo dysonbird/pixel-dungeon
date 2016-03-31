@@ -32,6 +32,11 @@ import com.watabou.pixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.pixeldungeon.utils.GLog;
 
+/**
+ * 食物
+ * @author 
+ *
+ */
 public class Food extends Item {
 
 	private static final float TIME_TO_EAT	= 3f;

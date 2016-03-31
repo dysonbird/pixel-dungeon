@@ -27,12 +27,17 @@ import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
+/**
+ * 有一个干枯泉水口 一个骷髅的房间 骷髅会掉落不少东西
+ * @author 
+ *
+ */
 public class PitPainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
 
 		fill( level, room, Terrain.WALL );
-		fill( level, room, 1, Terrain.EMPTY );
+		fill( level, room, 1, Terrain.EMPTY );// 随机地板
 		
 		Room.Door entrance = room.entrance();
 		entrance.set( Room.Door.Type.LOCKED );
@@ -47,26 +52,26 @@ public class PitPainter extends Painter {
 		} else if (entrance.y == room.bottom) {
 			well = new Point( Random.Int( 2 ) == 0 ? room.left + 1 : room.right - 1, room.top+1 );
 		}
-		set( level, well, Terrain.EMPTY_WELL );
+		set( level, well, Terrain.EMPTY_WELL );// 泉水口在门的对边随机一个角
 		
 		int remains = room.random();
 		while (level.map[remains] == Terrain.EMPTY_WELL) {
-			remains = room.random();
+			remains = room.random();// 随机一个不是泉水口的位置摆放骷髅
 		}
 		
-		level.drop( new IronKey(), remains ).type = Type.SKELETON;
+		level.drop( new IronKey(), remains ).type = Type.SKELETON;// 骷髅会掉落一把钥匙
 		
 		if (Random.Int( 5 ) == 0) {
-			level.drop( Generator.random( Generator.Category.RING ), remains );
+			level.drop( Generator.random( Generator.Category.RING ), remains );// 五分一几率掉落戒指
 		} else {
 			level.drop( Generator.random( Random.oneOf( 
 				Generator.Category.WEAPON, 
 				Generator.Category.ARMOR
-			) ), remains );
+			) ), remains );// 掉落武器或者护甲
 		}
 		
 		int n = Random.IntRange( 1, 2 );
-		for (int i=0; i < n; i++) {
+		for (int i=0; i < n; i++) {// 掉落随机个数的随机物品
 			level.drop( prize( level ), remains );
 		}
 	}

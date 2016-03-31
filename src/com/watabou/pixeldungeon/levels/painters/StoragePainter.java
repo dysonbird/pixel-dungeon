@@ -28,23 +28,20 @@ import com.watabou.utils.Random;
 public class StoragePainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
-		
-		final int floor = Terrain.EMPTY_SP;
-		
 		fill( level, room, Terrain.WALL );
-		fill( level, room, 1, floor );
+		fill( level, room, 1, Terrain.EMPTY_SP );
 		
 		int n = Random.IntRange( 3, 4 );
 		for (int i=0; i < n; i++) {
 			int pos;
 			do {
 				pos = room.random();
-			} while (level.map[pos] != floor);
+			} while (level.map[pos] != Terrain.EMPTY_SP);
 			level.drop( prize( level ), pos );
 		}
 		
-		room.entrance().set( Room.Door.Type.BARRICADE );
-		level.addItemToSpawn( new PotionOfLiquidFlame() );
+		room.entrance().set( Room.Door.Type.BARRICADE );// 栅栏
+		level.addItemToSpawn( new PotionOfLiquidFlame() );// 会爆炸的药水
 	}
 	
 	private static Item prize( Level level ) {

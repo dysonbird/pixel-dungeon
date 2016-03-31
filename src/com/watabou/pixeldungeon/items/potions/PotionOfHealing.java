@@ -27,6 +27,11 @@ import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.effects.Speck;
 import com.watabou.pixeldungeon.utils.GLog;
 
+/**
+ * 治疗药水
+ * @author 
+ *
+ */
 public class PotionOfHealing extends Potion {
 
 	{

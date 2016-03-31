@@ -33,6 +33,11 @@ import com.watabou.pixeldungeon.items.Item;
 import com.watabou.pixeldungeon.items.potions.PotionOfHealing;
 import com.watabou.pixeldungeon.utils.GLog;
 
+/**
+ * 生命泉水
+ * @author 
+ *
+ */
 public class WaterOfHealth extends WellWater {
 
 	private static final String TXT_PROCCED =

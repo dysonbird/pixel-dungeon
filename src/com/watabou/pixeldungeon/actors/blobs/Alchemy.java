@@ -25,6 +25,11 @@ import com.watabou.pixeldungeon.items.Heap;
 import com.watabou.pixeldungeon.items.Item;
 import com.watabou.utils.Bundle;
 
+/**
+ * 魔法
+ * @author 
+ *
+ */
 public class Alchemy extends Blob {
 
 	protected int pos;
@@ -52,7 +57,7 @@ public class Alchemy extends Blob {
 	
 	@Override
 	public void seed( int cell, int amount ) {
-		cur[pos] = 0;
+		cur[pos] = 0;// ???
 		pos = cell;
 		volume = cur[pos] = amount;
 	}

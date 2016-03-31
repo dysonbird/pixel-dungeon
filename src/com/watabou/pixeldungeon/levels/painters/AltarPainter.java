@@ -28,31 +28,32 @@ public class AltarPainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
 
-		fill( level, room, Terrain.WALL );
-		fill( level, room, 1, Dungeon.bossLevel( Dungeon.depth + 1 ) ? Terrain.HIGH_GRASS : Terrain.CHASM );
+		fill( level, room, Terrain.WALL );// 一圈墙
+		fill( level, room, 1, Dungeon.bossLevel( Dungeon.depth + 1 ) ? Terrain.HIGH_GRASS : Terrain.CHASM );// 其余填上裂缝或者高草
 		
-		Point c = room.center();
+		Point center = room.center();
 		Room.Door door = room.entrance();
+		/*从门口铺木地板到祭坛位置 祭坛就在房间的中间*/
 		if (door.x == room.left || door.x == room.right) {
-			Point p = drawInside( level, room, door, Math.abs( door.x - c.x ) - 2, Terrain.EMPTY_SP );
-			for (; p.y != c.y; p.y += p.y < c.y ? +1 : -1) {
+			Point p = drawInside( level, room, door, Math.abs( door.x - center.x ) - 2, Terrain.EMPTY_SP );
+			for (; p.y != center.y; p.y += p.y < center.y ? +1 : -1) {
 				set( level, p, Terrain.EMPTY_SP );
 			}
 		} else {
-			Point p = drawInside( level, room, door, Math.abs( door.y - c.y ) - 2, Terrain.EMPTY_SP );
-			for (; p.x != c.x; p.x += p.x < c.x ? +1 : -1) {
+			Point p = drawInside( level, room, door, Math.abs( door.y - center.y ) - 2, Terrain.EMPTY_SP );
+			for (; p.x != center.x; p.x += p.x < center.x ? +1 : -1) {
 				set( level, p, Terrain.EMPTY_SP );
 			}
 		}
 
-		fill( level, c.x - 1, c.y - 1, 3, 3, Terrain.EMBERS );
-		set( level, c, Terrain.PEDESTAL );
+		fill( level, center.x - 1, center.y - 1, 3, 3, Terrain.EMBERS );// 放置一块3X3的余烬格子
+		set( level, center, Terrain.PEDESTAL );// 底座充当祭坛 放在房间中间
 		
 		SacrificialFire fire = (SacrificialFire)level.blobs.get( SacrificialFire.class );
 		if (fire == null) {
 			fire = new SacrificialFire();
 		}
-		fire.seed( c.x + c.y * Level.WIDTH, 5 + Dungeon.depth * 5 );
+		fire.seed( center.x + center.y * Level.WIDTH, 5 + Dungeon.depth * 5 );// 火焰位置和数量 
 		level.blobs.put( SacrificialFire.class, fire );
 		
 		door.set( Room.Door.Type.EMPTY );

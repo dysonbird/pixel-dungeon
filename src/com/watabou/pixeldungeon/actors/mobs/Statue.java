@@ -34,6 +34,11 @@ import com.watabou.pixeldungeon.sprites.StatueSprite;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+/**
+ * 雕像(怪物)
+ * @author 
+ *
+ */
 public class Statue extends Mob {
 	
 	{
@@ -46,6 +51,9 @@ public class Statue extends Mob {
 	
 	private Weapon weapon;
 	
+	/**
+	 * 雕像(怪物)
+	 */
 	public Statue() {
 		super();
 		

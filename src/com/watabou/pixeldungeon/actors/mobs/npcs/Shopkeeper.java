@@ -28,6 +28,11 @@ import com.watabou.pixeldungeon.sprites.ShopkeeperSprite;
 import com.watabou.pixeldungeon.windows.WndBag;
 import com.watabou.pixeldungeon.windows.WndTradeItem;
 
+/**
+ * 商人 一般在城市中出现
+ * @author Administrator
+ *
+ */
 public class Shopkeeper extends NPC {
 
 	{

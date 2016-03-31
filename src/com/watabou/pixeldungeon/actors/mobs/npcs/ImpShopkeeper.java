@@ -25,6 +25,11 @@ import com.watabou.pixeldungeon.items.Heap;
 import com.watabou.pixeldungeon.sprites.ImpSprite;
 import com.watabou.pixeldungeon.utils.Utils;
 
+/**
+ * 恶魔商人 一般在地牢中出现
+ * @author 
+ *
+ */
 public class ImpShopkeeper extends Shopkeeper {
 
 	private static final String TXT_GREETINGS = "Hello, friend!";

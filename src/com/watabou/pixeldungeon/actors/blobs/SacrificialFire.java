@@ -40,6 +40,11 @@ import com.watabou.pixeldungeon.utils.GLog;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+/**
+ * 献祭火焰
+ * @author 
+ *
+ */
 public class SacrificialFire extends Blob {
 	
 	private static final String TXT_WORTHY		= "\"Your sacrifice is worthy...\" ";

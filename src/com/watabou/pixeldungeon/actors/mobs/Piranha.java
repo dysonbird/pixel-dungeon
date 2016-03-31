@@ -33,6 +33,11 @@ import com.watabou.pixeldungeon.levels.Level;
 import com.watabou.pixeldungeon.sprites.PiranhaSprite;
 import com.watabou.utils.Random;
 
+/**
+ * 食人鱼
+ * @author 
+ *
+ */
 public class Piranha extends Mob {
 	
 	{
@@ -44,6 +49,9 @@ public class Piranha extends Mob {
 		EXP = 0;
 	}
 	
+	/**
+	 * 食人鱼
+	 */
 	public Piranha() {
 		super();
 		

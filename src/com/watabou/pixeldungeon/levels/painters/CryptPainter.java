@@ -26,6 +26,11 @@ import com.watabou.pixeldungeon.levels.Room;
 import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.utils.Point;
 
+/**
+ * 地窖
+ * @author 
+ *
+ */
 public class CryptPainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
@@ -42,6 +47,7 @@ public class CryptPainter extends Painter {
 		entrance.set( Room.Door.Type.LOCKED );
 		level.addItemToSpawn( new IronKey() );
 		
+		/*在门的对边两个角放置雕像*/
 		if (entrance.x == room.left) {
 			set( level, new Point( room.right-1, room.top+1 ), Terrain.STATUE );
 			set( level, new Point( room.right-1, room.bottom-1 ), Terrain.STATUE );
@@ -60,10 +66,11 @@ public class CryptPainter extends Painter {
 			cy = room.top + 2;
 		}
 		
-		level.drop( prize( level ), cx + cy * Level.WIDTH ).type = Type.TOMB;
+		//房间中间放置一个掉落护甲的墓碑
+		level.drop( prize(), cx + cy * Level.WIDTH ).type = Type.TOMB;
 	}
 	
-	private static Item prize( Level level ) {
+	private static Item prize() {
 		
 		Item prize = Generator.random( Generator.Category.ARMOR );
 

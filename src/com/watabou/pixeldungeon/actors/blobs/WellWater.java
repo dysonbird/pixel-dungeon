@@ -29,6 +29,11 @@ import com.watabou.pixeldungeon.scenes.GameScene;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+/**
+ * 泉水
+ * @author 
+ *
+ */
 public class WellWater extends Blob {
 
 	protected int pos;

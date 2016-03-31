@@ -23,6 +23,11 @@ import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
+/**
+ * 木地板 有裂缝的房间
+ * @author 
+ *
+ */
 public class WeakFloorPainter extends Painter {
 
 	public static void paint( Level level, Room room ) {

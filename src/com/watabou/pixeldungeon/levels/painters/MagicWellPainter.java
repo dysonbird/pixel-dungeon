@@ -27,6 +27,11 @@ import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
+/**
+ * 魔法泉房间
+ * @author 
+ *
+ */
 public class MagicWellPainter extends Painter {
 
 	private static final Class<?>[] WATERS = 
@@ -38,7 +43,7 @@ public class MagicWellPainter extends Painter {
 		fill( level, room, 1, Terrain.EMPTY );
 		
 		Point c = room.center();
-		set( level, c.x, c.y, Terrain.WELL );
+		set( level, c.x, c.y, Terrain.WELL );// 泉水在房间中间
 		
 		@SuppressWarnings("unchecked")
 		Class<? extends WellWater> waterClass = 

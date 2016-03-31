@@ -23,6 +23,11 @@ import com.watabou.pixeldungeon.items.weapon.Weapon;
 import com.watabou.pixeldungeon.utils.Utils;
 import com.watabou.utils.Random;
 
+/**
+ * 近战武器
+ * @author 
+ *
+ */
 public class MeleeWeapon extends Weapon {
 	
 	private int tier;

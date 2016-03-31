@@ -26,6 +26,11 @@ import com.watabou.pixeldungeon.actors.hero.Hero;
 import com.watabou.pixeldungeon.effects.particles.FlameParticle;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
+/**
+ * 火把
+ * @author 
+ *
+ */
 public class Torch extends Item {
 
 	public static final String AC_LIGHT	= "LIGHT";

@@ -19,6 +19,11 @@ package com.watabou.pixeldungeon.items.weapon.melee;
 
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
+/**
+ * 短棍 木棍 近战武器
+ * @author 
+ *
+ */
 public class Quarterstaff extends MeleeWeapon {
 
 	{
@@ -26,10 +31,16 @@ public class Quarterstaff extends MeleeWeapon {
 		image = ItemSpriteSheet.QUARTERSTAFF;
 	}
 	
+	/**
+	 * 木棍
+	 */
 	public Quarterstaff() {
 		super( 2, 1f, 1f );
 	}
 	
+	/**
+	 * 用铁包裹着顶端的硬木棍
+	 */
 	@Override
 	public String desc() {
 		return "A staff of hardwood, its ends are shod with iron.";

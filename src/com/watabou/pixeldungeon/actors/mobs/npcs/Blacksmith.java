@@ -42,6 +42,11 @@ import com.watabou.pixeldungeon.windows.WndQuest;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+/**
+ * 巨魔铁匠
+ * @author 
+ *
+ */
 public class Blacksmith extends NPC {
 
 	private static final String TXT_GOLD_1 =

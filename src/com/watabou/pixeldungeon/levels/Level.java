@@ -134,11 +134,12 @@ public abstract class Level implements Bundlable {
 	public int entrance;
 	public int exit;
 	
-	/**怪物*/
+	/**怪物 NPC*/
 	public HashSet<Mob> mobs;
 	/**方块上放置的物体,例如：金币*/
 	public SparseArray<Heap> heaps;
-	public HashMap<Class<? extends Blob>,Blob> blobs;//存储对象
+	/**存储对象*/
+	public HashMap<Class<? extends Blob>,Blob> blobs;
 	public SparseArray<Plant> plants;
 	
 	/**本层地穴需要生成的物品*/
@@ -425,6 +426,10 @@ public abstract class Level implements Bundlable {
 		}
 	}
 	
+	/**
+	 * 在将要生成的物品中取一个出来作为奖品
+	 * @return
+	 */
 	public Item itemToSpanAsPrize() {
 		if (Random.Int( itemsToSpawn.size() + 1 ) > 0) {
 			Item item = Random.element( itemsToSpawn );
@@ -651,10 +656,11 @@ public abstract class Level implements Bundlable {
 			return;
 		}
 		
+		Log.i("格子", cell+"");
 		//TODO FIXME
 		Room room = ((RegularLevel)Dungeon.level).room( cell );
 		if(room != null) {
-			Log.i("房间", room.type.name());
+			Log.i("房间", room.type.name() + " left: " + room.left + " right: " + room.right);
 		}
 		
 		

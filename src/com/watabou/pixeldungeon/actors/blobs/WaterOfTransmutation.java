@@ -35,6 +35,11 @@ import com.watabou.pixeldungeon.items.wands.Wand;
 import com.watabou.pixeldungeon.items.weapon.melee.*;
 import com.watabou.pixeldungeon.plants.Plant;
 
+/**
+ * 转化药水(把物品放进去会改变)
+ * @author Administrator
+ *
+ */
 public class WaterOfTransmutation extends WellWater {
 	
 	@Override

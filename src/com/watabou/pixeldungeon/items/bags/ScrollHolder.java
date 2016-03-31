@@ -21,6 +21,11 @@ import com.watabou.pixeldungeon.items.Item;
 import com.watabou.pixeldungeon.items.scrolls.Scroll;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
+/**
+ * 卷轴背包
+ * @author
+ *
+ */
 public class ScrollHolder extends Bag {
 
 	{

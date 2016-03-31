@@ -27,6 +27,11 @@ import com.watabou.pixeldungeon.effects.particles.ShadowParticle;
 import com.watabou.pixeldungeon.items.Item;
 import com.watabou.pixeldungeon.utils.GLog;
 
+/**
+ * 净化卷轴 净化诅咒
+ * @author 
+ *
+ */
 public class ScrollOfRemoveCurse extends Scroll {
 
 	private static final String TXT_PROCCED	= 

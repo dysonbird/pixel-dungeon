@@ -28,6 +28,11 @@ import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
+/**
+ * 实验室
+ * @author 
+ *
+ */
 public class LaboratoryPainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
@@ -64,19 +69,24 @@ public class LaboratoryPainter extends Painter {
 			level.drop( prize( level ), pos );
 		}
 		
-		entrance.set( Room.Door.Type.LOCKED );
-		level.addItemToSpawn( new IronKey() );
+		entrance.set( Room.Door.Type.LOCKED );// 锁上
+		level.addItemToSpawn( new IronKey() );// 加上一把钥匙
 	}
 	
+	/**
+	 * 返回药水
+	 * @param level
+	 * @return
+	 */
 	private static Item prize( Level level ) {
 		
 		Item prize = level.itemToSpanAsPrize();
-		if (prize instanceof Potion) {
+		if (prize instanceof Potion) {// 药水就返回
 			return prize;
 		} else if (prize != null) {
-			level.addItemToSpawn( prize );
+			level.addItemToSpawn( prize );// 不是药水 放回去
 		}
 		
-		return Generator.random( Generator.Category.POTION );
+		return Generator.random( Generator.Category.POTION );// 随机返回一种药水
 	}
 }

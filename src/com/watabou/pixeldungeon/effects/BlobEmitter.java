@@ -23,6 +23,11 @@ import com.watabou.pixeldungeon.DungeonTilemap;
 import com.watabou.pixeldungeon.actors.blobs.Blob;
 import com.watabou.utils.Random;
 
+/**
+ * 存储起来的发射器
+ * @author 
+ *
+ */
 public class BlobEmitter extends Emitter {
 
 	private static final int WIDTH	= Blob.WIDTH;

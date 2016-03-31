@@ -29,9 +29,9 @@ public class BlacksmithPainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
 
-		fill( level, room, Terrain.WALL );
-		fill( level, room, 1, Terrain.FIRE_TRAP );
-		fill( level, room, 2, Terrain.EMPTY_SP );
+		fill( level, room, Terrain.WALL );// 填满墙
+		fill( level, room, 1, Terrain.FIRE_TRAP );// 墙厚度为一 其余为火陷阱
+		fill( level, room, 2, Terrain.EMPTY_SP );// 只留一圈火
 		
 		for (int i=0; i < 2; i++) {
 			int pos;
@@ -42,7 +42,7 @@ public class BlacksmithPainter extends Painter {
 				Generator.random( Random.oneOf( 
 					Generator.Category.ARMOR, 
 					Generator.Category.WEAPON
-				) ), pos );
+				) ), pos );// 房间中掉落两件装备
 		}
 		
 		for (Room.Door door : room.connected.values()) {

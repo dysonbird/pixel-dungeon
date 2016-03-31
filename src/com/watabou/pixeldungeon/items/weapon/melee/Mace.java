@@ -19,6 +19,11 @@ package com.watabou.pixeldungeon.items.weapon.melee;
 
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
+/**
+ * 狼牙棒 单手锤 近战武器
+ * @author 
+ *
+ */
 public class Mace extends MeleeWeapon {
 
 	{
@@ -26,6 +31,9 @@ public class Mace extends MeleeWeapon {
 		image = ItemSpriteSheet.MACE;
 	}
 	
+	/**
+	 * 狼牙棒 单手锤
+	 */
 	public Mace() {
 		super( 3, 1f, 0.8f );
 	}

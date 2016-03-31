@@ -36,6 +36,11 @@ import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.pixeldungeon.scenes.GameScene;
 import com.watabou.pixeldungeon.utils.GLog;
 
+/**
+ * 知识泉水
+ * @author 
+ *
+ */
 public class WaterOfAwareness extends WellWater {
 
 	private static final String TXT_PROCCED =

@@ -19,7 +19,11 @@ package com.watabou.pixeldungeon.items.armor;
 
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
-
+/**
+ * 皮甲
+ * @author 
+ *
+ */
 public class LeatherArmor extends Armor {
 
 	{	
@@ -27,6 +31,9 @@ public class LeatherArmor extends Armor {
 		image = ItemSpriteSheet.ARMOR_LEATHER;
 	}
 	
+	/**
+	 * 皮甲
+	 */
 	public LeatherArmor() {
 		super( 2 );
 	}

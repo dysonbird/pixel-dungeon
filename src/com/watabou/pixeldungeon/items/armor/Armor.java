@@ -34,6 +34,11 @@ import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+/**
+ * 铠甲
+ * @author 
+ *
+ */
 public class Armor extends EquipableItem {
 	
 	private static final int HITS_TO_KNOW	= 10;
@@ -55,6 +60,10 @@ public class Armor extends EquipableItem {
 	
 	public Glyph glyph;
 	
+	/**
+	 * 铠甲 可装备
+	 * @param tier 等级?
+	 */
 	public Armor( int tier ) {
 		
 		this.tier = tier;

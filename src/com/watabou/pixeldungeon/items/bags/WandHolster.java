@@ -21,6 +21,11 @@ import com.watabou.pixeldungeon.items.Item;
 import com.watabou.pixeldungeon.items.wands.Wand;
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
+/**
+ * 魔杖皮套 背包
+ * @author 
+ *
+ */
 public class WandHolster extends Bag {
 
 	{

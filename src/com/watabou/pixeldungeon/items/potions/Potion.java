@@ -37,6 +37,11 @@ import com.watabou.pixeldungeon.utils.GLog;
 import com.watabou.pixeldungeon.windows.WndOptions;
 import com.watabou.utils.Bundle;
 
+/**
+ * 药水
+ * @author 
+ *
+ */
 public class Potion extends Item {
 	
 	public static final String AC_DRINK	= "DRINK";

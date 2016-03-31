@@ -27,6 +27,11 @@ import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
+/**
+ * 图书馆
+ * @author 
+ *
+ */
 public class LibraryPainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
@@ -38,6 +43,7 @@ public class LibraryPainter extends Painter {
 		Point a = null;
 		Point b = null;
 		
+		/* 放置书架*/
 		if (entrance.x == room.left) {
 			a = new Point( room.left+1, entrance.y-1 );
 			b = new Point( room.left+1, entrance.y+1 );
@@ -71,19 +77,24 @@ public class LibraryPainter extends Painter {
 			level.drop( prize( level), pos );
 		}
 		
-		entrance.set( Room.Door.Type.LOCKED );
-		level.addItemToSpawn( new IronKey() );
+		entrance.set( Room.Door.Type.LOCKED );// 锁上
+		level.addItemToSpawn( new IronKey() );// 在地图中生成钥匙
 	}
 	
+	/**
+	 * 奖品 默认是卷轴
+	 * @param level
+	 * @return
+	 */
 	private static Item prize( Level level ) {
 		
 		Item prize = level.itemToSpanAsPrize();
-		if (prize instanceof Scroll) {
+		if (prize instanceof Scroll) {// 如果奖品是卷轴 返回
 			return prize;
-		} else if (prize != null) {
+		} else if (prize != null) {// 不是卷轴 放回去
 			level.addItemToSpawn( prize );
 		}
 		
-		return Generator.random( Generator.Category.SCROLL );
+		return Generator.random( Generator.Category.SCROLL );//随机返回一个卷轴
 	}
 }

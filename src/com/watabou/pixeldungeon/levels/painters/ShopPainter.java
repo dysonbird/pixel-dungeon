@@ -53,8 +53,8 @@ public class ShopPainter extends Painter {
 	
 	public static void paint( Level level, Room room ) {
 		
-		fill( level, room, Terrain.WALL );
-		fill( level, room, 1, Terrain.EMPTY_SP );
+		fill( level, room, Terrain.WALL );// 填满墙
+		fill( level, room, 1, Terrain.EMPTY_SP );// 挖空房间 墙厚度为1
 
 		pasWidth = room.width() - 2;
 		pasHeight = room.height() - 2;
@@ -86,6 +86,10 @@ public class ShopPainter extends Painter {
 		}
 	}
 	
+	/**
+	 * 生成11个摆放在地面的待售Item
+	 * @return
+	 */
 	private static Item[] range() {
 		
 		ArrayList<Item> items = new ArrayList<Item>();
@@ -151,6 +155,11 @@ public class ShopPainter extends Painter {
 		return range;
 	}
 	
+	/**
+	 * 放置 Shop NPC
+	 * @param level
+	 * @param room
+	 */
 	private static void placeShopkeeper( Level level, Room room ) {
 		
 		int pos;

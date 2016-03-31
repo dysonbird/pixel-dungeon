@@ -27,6 +27,11 @@ import com.watabou.pixeldungeon.levels.Room;
 import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.utils.Random;
 
+/**
+ * 墓穴
+ * @author 
+ *
+ */
 public class VaultPainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
@@ -37,37 +42,42 @@ public class VaultPainter extends Painter {
 		
 		int cx = (room.left + room.right) / 2;
 		int cy = (room.top + room.bottom) / 2;
-		int c = cx + cy * Level.WIDTH;
+		int c = cx + cy * Level.WIDTH;// center
 		
 		switch (Random.Int( 3 )) {
 		
 		case 0:
-			level.drop( prize( level ), c ).type = Type.LOCKED_CHEST;
-			level.addItemToSpawn( new GoldenKey() );
+			level.drop( prize(), c ).type = Type.LOCKED_CHEST;// 锁上的箱子 需要金钥匙
+			level.addItemToSpawn( new GoldenKey() );// 加入金钥匙
 			break;
 			
 		case 1:
-			Item i1, i2;
+			Item i1, i2;// 两个不同的物品
 			do {
-				i1 = prize( level );
-				i2 = prize( level );
+				i1 = prize();
+				i2 = prize();
 			} while (i1.getClass() == i2.getClass());
-			level.drop( i1, c ).type = Type.CRYSTAL_CHEST;
-			level.drop( i2, c + Level.NEIGHBOURS8[Random.Int( 8 )]).type = Type.CRYSTAL_CHEST;
-			level.addItemToSpawn( new GoldenKey() );
+			level.drop( i1, c ).type = Type.CRYSTAL_CHEST;// 水晶箱子
+			level.drop( i2, c + Level.NEIGHBOURS8[Random.Int( 8 )]).type = Type.CRYSTAL_CHEST;// 在邻居房间中放置一个水晶箱子
+			level.addItemToSpawn( new GoldenKey() );// 金钥匙
 			break;
 			
 		case 2:
-			level.drop( prize( level ), c );
-			set( level, c, Terrain.PEDESTAL );
+			level.drop( prize(), c );
+			set( level, c, Terrain.PEDESTAL );// 放置一个底座 打爆会掉落物品
 			break;
 		}
 		
-		room.entrance().set( Room.Door.Type.LOCKED );
-		level.addItemToSpawn( new IronKey() );
+		room.entrance().set( Room.Door.Type.LOCKED );// 锁上
+		level.addItemToSpawn( new IronKey() );// 加入铁钥匙
 	}
 	
-	private static Item prize( Level level ) {
+	/**
+	 * 随机返回魔杖 或者 戒指
+	 * @param level
+	 * @return
+	 */
+	private static Item prize() {
 		return Generator.random( Random.oneOf(  
 			Generator.Category.WAND, 
 			Generator.Category.RING 

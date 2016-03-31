@@ -19,7 +19,11 @@ package com.watabou.pixeldungeon.items.armor;
 
 import com.watabou.pixeldungeon.sprites.ItemSpriteSheet;
 
-
+/**
+ * 板甲
+ * @author 
+ *
+ */
 public class PlateArmor extends Armor {
 
 	{
@@ -27,6 +31,9 @@ public class PlateArmor extends Armor {
 		image = ItemSpriteSheet.ARMOR_PLATE;
 	}
 	
+	/**
+	 * 板甲
+	 */
 	public PlateArmor() {
 		super( 5 );
 	}

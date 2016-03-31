@@ -25,6 +25,11 @@ import com.watabou.pixeldungeon.levels.Room;
 import com.watabou.pixeldungeon.levels.Terrain;
 import com.watabou.utils.Point;
 
+/**
+ * 雕像
+ * @author 
+ *
+ */
 public class StatuePainter extends Painter {
 
 	public static void paint( Level level, Room room ) {
@@ -41,6 +46,7 @@ public class StatuePainter extends Painter {
 		door.set( Room.Door.Type.LOCKED );
 		level.addItemToSpawn( new IronKey() );
 		
+		/*门对边放置雕像*/
 		if (door.x == room.left) {
 			
 			fill( level, room.right - 1, room.top + 1, 1, room.height() - 1 , Terrain.STATUE );
@@ -63,6 +69,7 @@ public class StatuePainter extends Painter {
 			
 		}
 		
+		/*房间中间放置一个雕像(怪物)*/
 		Statue statue = new Statue();
 		statue.pos = cx + cy * Level.WIDTH;
 		level.mobs.add( statue );

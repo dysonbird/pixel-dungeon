@@ -22,8 +22,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
-import android.util.Log;
-
 import com.watabou.pixeldungeon.Bones;
 import com.watabou.pixeldungeon.Dungeon;
 import com.watabou.pixeldungeon.actors.Actor;
@@ -407,13 +405,11 @@ public abstract class RegularLevel extends Level {
 			
 		} else {
 			float r = (float)(w - 2) / (w + h - 4);
-			if (Random.Float() < r) {// 按概率(r的规律：当w比较小,h比较大的时候,r值会比较小,这时候会大概率的出现竖分割,相反情况也一样), 横或竖分割房间,
-				Log.i("横分割","w:"+ w + " h:" + h + " r:" + r);
+			if (Random.Float() < r) {// 按概率(r的规律：当w比较小,h比较大的时候,r值会比较小,这时候会大概率的出现竖分割,相反情况也一样), 横或竖分割房间
 				int vw = Random.Int( rect.left + 3, rect.right - 3 );// 横分段
 				split( new Rect( rect.left, rect.top, vw, rect.bottom ) );// 左边空间
 				split( new Rect( vw, rect.top, rect.right, rect.bottom ) );// 右边空间
 			} else {
-				Log.i("竖分割","w:"+ w + " h:" + h + " r:" + r);
 				int vh = Random.Int( rect.top + 3, rect.bottom - 3 );// 竖分段
 				split( new Rect( rect.left, rect.top, rect.right, vh ) );// 上边空间
 				split( new Rect( rect.left, vh, rect.right, rect.bottom ) );// 下边空间
@@ -423,7 +419,7 @@ public abstract class RegularLevel extends Level {
 	}
 	
 	/**
-	 * map赋值,用不同类型方块填充房间
+	 * map赋值,用不同类型方块填充房间,创建门等
 	 */
 	protected void paint() {
 		for (Room r : rooms) {
@@ -636,7 +632,7 @@ public abstract class RegularLevel extends Level {
 	}
 	
 	/**
-	 * 创建Item,至少三个Item
+	 * 创建Item,至少三个随机Item和固定生成的物品
 	 */
 	@Override
 	protected void createItems() {
@@ -666,12 +662,11 @@ public abstract class RegularLevel extends Level {
 			}
 			Item item = Generator.random();
 			drop( item, randomDropCell() ).type = type;
-			Log.i("房间生成的箱子", item.info());
 		}
 
 		for (Item item : itemsToSpawn) {
 			int cell = randomDropCell();
-			if (item instanceof ScrollOfUpgrade) {
+			if (item instanceof ScrollOfUpgrade) {//卷轴不能掉落在火陷阱中 会烧掉
 				while (map[cell] == Terrain.FIRE_TRAP || map[cell] == Terrain.SECRET_FIRE_TRAP) {
 					cell = randomDropCell();
 				}
@@ -679,6 +674,7 @@ public abstract class RegularLevel extends Level {
 			drop( item, cell ).type = Heap.Type.HEAP;
 		}
 		
+		/* 生成骷髅 */
 		Item item = Bones.get();
 		if (item != null) {
 			drop( item, randomDropCell() ).type = Heap.Type.SKELETON;
@@ -705,6 +701,10 @@ public abstract class RegularLevel extends Level {
 		return null;
 	}
 	
+	/**
+	 * 在标准房间中随机一个格子
+	 * @return
+	 */
 	protected int randomDropCell() {
 		while (true) {
 			Room room = randomRoom( Room.Type.STANDARD, 1 );
